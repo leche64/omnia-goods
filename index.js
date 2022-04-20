@@ -105,6 +105,14 @@ mongoose
       weather.fetchGeoLocation("New York City");
     });
 
+    app.get("/products", (req, res) => {
+      res.render("products");
+    })
+
+    app.get("/locations", (req, res) => {
+      res.render("locations");
+    })
+
     console.log("SUCCESSFULL DB CONNECTION");
     // start app after successful db connection
     app.listen(8080, () => {

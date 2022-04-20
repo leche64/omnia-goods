@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body>
+    <div class="bg-container">
+      <%- include('./partials/nav.ejs') %>
+      <section class="location">
+        <h1>Our Current Locations</h1>
+        <p>
+          Praesent odio leo, maximus eget massa sed, interdum mollis erat. Fusce
+          eleifend diam sed lorem maximus facilisis. Aenean mollis sapien ut
+          elit accumsan laoreet. Donec massa elit, semper id elementum a,
+          ultrices vel ligula. Morbi in velit non velit molestie rhoncus quis
+          quis ligula
+        </p>
+        <div class="row">
+          <div class="location-col">
+            <img src="/images/street1.jpg" />
+            <div class="layer">
+              <h3>
+                Midtown Holiday Market: <br />
+                Mon-Sun 3pm-9pm 740 8th Ave New York, NY 10009
+              </h3>
+            </div>
+          </div>
+          <div class="location-col">
+            <img src="/images/street4.jpg" />
+            <div class="layer">
+              <h3>Pop-Up Street Fairs</h3>
+            </div>
+          </div>
+          <div class="location-col">
+            <img src="/images/street3.jpg" />
+            <div class="layer">
+              <h3>Coming Soon</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="footer">
+        <%- include('./partials/footer.ejs') %>
+      </section>
+    </div>
+  </body>
+</html>
