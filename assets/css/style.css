@@ -22,6 +22,10 @@ body {
   height: 100vh;
 }
 
+.body-container {
+  width: 60%;
+}
+
 br {
   content: "";
   margin: -0.45em;

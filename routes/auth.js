@@ -124,6 +124,7 @@ router.post(
       // non registered mobile phone number, send to registration
       if (existingPhoneNumber.length == 0) {
         console.log("New Mobile Number Needs To Be Registered");
+        res.render("register");
       } else {
         console.log("Mobile Number Already Registered and Verified");
         
