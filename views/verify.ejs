@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body>
+    <div class="form-container">
+        <div class="header-container">
+          <h1>
+            Omnia Goods <br />
+            Dispensary. <br />
+            <img src="/images/weed.png" height="125" width="125" />
+          </h1>
+        </div>
+        <div class="body-container">
+            <form action="/api/user/verify/" method="post">
+                <div class="form-name">
+                    <input type="text" name="verify-code" autocomplete="off" required />
+                    <label for="verify-code" class="label-name">
+                      <span class="content-name"> Verify Code </span>
+                    </label>
+                  </div>
+                  <button type="submit" class="btn-one">verify</button>
+            </form>
+        </div>
+  </body>
+</html>
