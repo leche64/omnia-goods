@@ -1,79 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Sign Up</title>
+    <%- include('./partials/head.ejs') %>
   </head>
   <body>
-    <div class="container-sm bg-light border rounded">
-      <h1>Sign-Up</h1>
-      <form action="/register" method="POST" class="row g-3 was-validated">
-        <div class="col-md-6">
-          <label for="mobilenumber" class="form-label">Mobile Number</label>
-          <input
-            type="text"
-            class="form-control"
-            name="mobilenumber"
-            id="mobilenumber"
-            placeholder="2124354121"
-            required
-          />
+    <div class="form-container">
+        <div class="header-container">
+          <h1>
+            Omnia Goods <br />
+            Dispensary. <br />
+            <img src="/images/weed.png" height="125" width="125" />
+          </h1>
         </div>
-        <div class="col-md-6">
-          <label for="referalcode" class="form-label">Referal Code</label>
-          <input
-            type="text"
-            class="form-control"
-            name="referalcode"
-            id="referalcode"
-            placeholder="XXXXX"
-            required
-          />
+        <div class="body-container">
+            <form action="/api/user/verify/" method="post">
+              <div class="form-name">
+                <input type="text" name="phone-number" autocomplete="off" required />
+                <label for="phone-number" class="label-name">
+                  <span class="content-name"> Phone Number </span>
+                </label>
+              </div>
+              <div class="form-name">
+                <input type="text" name="referral-code" autocomplete="off" required />
+                <label for="referral-code" class="label-name">
+                  <span class="content-name"> Referral Code </span>
+                </label>
+              </div>
+              <div class="form-name">
+                <input
+                  type="text"
+                  name="first-name"
+                  autocomplete="first-name"
+                  required
+                />
+                <label for="name" class="label-name">
+                  <span class="content-name"> First Name </span>
+                </label>
+              </div>
+              <div class="form-name">
+                <input type="text" name="last-name" autocomplete="off" required />
+                <label for="last-name" class="label-name">
+                  <span class="content-name"> Last Name </span>
+                </label>
+              </div>
+              <div class="form-name">
+                <input type="text" name="birthday" autocomplete="off" required />
+                <label for="birthday" class="label-name">
+                  <span class="content-name"> Birthday </span>
+                </label>
+              </div>
+              <div class="form-name">
+                <input type="text" name="email" autocomplete="off" required />
+                <label for="email" class="label-name">
+                  <span class="content-name"> Email </span>
+                </label>
+              </div>
+                  <button type="submit" class="btn-one">register</button>
+            </form>
         </div>
-        <div class="col-md-6">
-          <label for="firstname" class="form-label">First Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="firstname"
-            id="firstname"
-            required
-          />
-        </div>
-        <div class="col-md-6">
-          <label for="lastname" class="form-label">Last Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="lastname"
-            id="lastname"
-            required
-          />
-        </div>
-        <div class="col-md-12">
-          <label for="email" class="form-label">Email Address</label>
-          <input
-            type="text"
-            class="form-control"
-            name="email"
-            id="email"
-            aria-describedby="emailHelp"
-            required
-          />
-        </div>
-        <div class="col-md-12 text-center">
-          <button type="submit" class="btn btn-primary btn-lg btn-block mb-2">
-            Sign-Up
-          </button>
-        </di>
-      </form>
-    </div>
   </body>
 </html>
