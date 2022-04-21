@@ -5,8 +5,9 @@ body {
 }
 
 .bg-container {
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
+  height: 100vh;
   border: 0.5px solid red;
   box-sizing: border-box;
   -background-image: url(https://source.unsplash.com/random/?weed);
