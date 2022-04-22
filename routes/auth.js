@@ -10,10 +10,6 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = require("twilio")(accountSid, authToken);
 
-router.get("/register", (req, res) => {
-  res.render("register");
-});
-
 router.post(
   "/register",
   urlencodedParser,
@@ -65,24 +61,25 @@ router.post(
   }
 );
 
-router.get("/login", (req, res) => {
-  Register.find().then((result) => {
-    res.send(result);
-  });
-});
+router.get("/verify", urlencodedParser, (req, res) => {
+  console.log(req.body.verifycode);
 
-router.get("/verify", (req, res) => {
+  const verifyCode = req.body.verifycode;
+  const phoneNumber = "";
+
   twilioClient.verify
     .services(process.env.TWILIO_SERVICE_SSID)
     .verificationChecks.create({
-      to: "+15714387789",
-      code: "1111",
+      to: phoneNumber,
+      code: verifyCode,
     })
     .then((result) => {
       if (result.status == "approved") {
         console.log("successfully verified code");
       }
+      0;
       res.status(200).send({ result });
+      res.render("shop");
     })
     .catch((error) => {
       console.log(error);
@@ -124,30 +121,56 @@ router.post(
       // non registered mobile phone number, send to registration
       if (existingPhoneNumber.length == 0) {
         console.log("New Mobile Number Needs To Be Registered");
+        res.json(phoneNumberFinal);
+        res.status(200).send({ result });
         res.render("register");
       } else {
-        console.log("Mobile Number Already Registered and Verified");
-        
+        console.log("Mobile Number Already Registered");
+
         // if already existed, send twilio verification
         console.log("SENDING TWILIO VERIFCATION");
-        // twilioClient.verify
-        //   .services(process.env.TWILIO_SERVICE_SSID)
-        //   .verifications.create({
-        //     to: phoneNumberFinal,
-        //     channel: "sms",
-        //   })
-        //   .then((result) => {
-        //     console.log("successfully sent twilio verification code");
-        //     res.status(200).send({ result });
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //     res.status(200).send({ error });
-        //   });
-        res.render("verify");
+        twilioClient.verify
+          .services(process.env.TWILIO_SERVICE_SSID)
+          .verifications.create({
+            to: phoneNumberFinal,
+            channel: "sms",
+          })
+          .then((result) => {
+            console.log("successfully sent twilio verification code");
+            res.json(phoneNumberFinal);
+            res.status(200).send({ result });
+            res.render("verify");
+          })
+          .catch((error) => {
+            console.log(error);
+            res.status(200).send({ error });
+          });
       }
     }
   }
 );
+
+function verifyUser(phoneNumber) {
+  const verifyCode = req.body.verifycode;
+
+  twilioClient.verify
+    .services(process.env.TWILIO_SERVICE_SSID)
+    .verificationChecks.create({
+      to: phoneNumber,
+      code: verifyCode,
+    })
+    .then((result) => {
+      if (result.status == "approved") {
+        console.log("successfully verified code");
+      }
+      0;
+      res.status(200).send({ result });
+      res.render("shop");
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(200).send({ error });
+    });
+}
 
 module.exports = router;
