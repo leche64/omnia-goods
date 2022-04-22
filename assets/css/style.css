@@ -553,10 +553,76 @@ h1 {
 .icons .fa-brands {
   -color: #f44336;
   margin: 0 7px;
-  cursor: pointer;
+  -cursor: pointer;
   padding: 5px 0;
 }
 
 .fa-heart {
   color: #f44336;
+}
+
+/* ----------------- */
+
+.icons-weed {
+  text-align: center;
+}
+
+.icons-weed .fa-solid {
+  color: #ffffff;
+  margin: 0.3rem;
+  cursor: alias;
+  padding: 5px 0;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background-color: rgba(0, 70, 21, 0.797);
+  padding: 0.7rem;
+  margin: 0 auto;
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  position: relative;
+  cursor: pointer;
+  border: 0.2rem solid transparent;
+  transition: 200ms ease-in-out transform;
+  color: white;
+  text-align: center;
+  font-size: 10px;
+  -width: 100%;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+.card:active {
+  transform: scale(0.97);
+}
+
+input[id="card_one"]:checked ~ label[for="card_one"] .card,
+input[id="card_two"]:checked ~ label[for="card_two"] .card,
+input[id="card_three"]:checked ~ label[for="card_three"] .card,
+input[id="card_four"]:checked ~ label[for="card_four"] .card {
+  border-color: rgb(255, 255, 255);
+}
+/* you can see based on which card is checked the border color will be changed */
+/* ~ selector selects the sibling elements, in this case the label */
+
+input[id="card_one"]:checked ~ label[for="card_one"] .card .check_btn,
+input[id="card_two"]:checked ~ label[for="card_two"] .card .check_btn,
+input[id="card_three"]:checked ~ label[for="card_three"] .card .check_btn,
+input[id="card_four"]:checked ~ label[for="card_four"] .card .check_btn {
+  background-color: rgb(255, 255, 255);
+}
+
+
+
+/* its all done and the last thing is we need to remove the input radio btns */
+input {
+  display: none;
 }
