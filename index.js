@@ -14,7 +14,16 @@ const Register = require("./models/Register");
 const dotenv = require("dotenv");
 dotenv.config();
 
+var session = require("express-session");
+
 const app = express();
+app.use(
+  session({
+    secret: "XASDASDA",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 // mongo db connection
 const dbURI = process.env.DB_CONNECT;
@@ -36,7 +45,6 @@ mongoose
 
     // route middleware routes
     app.use("/api/user", authRoute);
-
 
     const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -107,11 +115,11 @@ mongoose
 
     app.get("/products", (req, res) => {
       res.render("products");
-    })
+    });
 
     app.get("/locations", (req, res) => {
       res.render("locations");
-    })
+    });
 
     console.log("SUCCESSFULL DB CONNECTION");
     // start app after successful db connection

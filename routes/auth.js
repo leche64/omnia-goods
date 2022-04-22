@@ -44,7 +44,8 @@ router.post(
       if (existingPhoneNumber.length === 0) {
         sendVerifyCode(req.body.phonenumber);
       }
-      res.render("verify", { data: req.body.phonenumber });
+      req.session.phoneNumber = req.body.phonenumber;
+      res.render("verify");
 
       //verify pass, insert into db,
 
@@ -144,16 +145,11 @@ router.post(
       });
     } else {
       const verifyCode = req.body.verifycode;
-      const phoneNumber = req.body.phonenumber;
-      var name = `{{ phoneNumber }}`;
-      console.log(name);
-
-      console.log("YOYOYO");
-      console.log(verifyCode + phoneNumber);
+      const phoneNumber = '+1' + req.session.phoneNumber;
       twilioClient.verify
         .services(process.env.TWILIO_SERVICE_SSID)
         .verificationChecks.create({
-          to: '+15714387789',
+          to: phoneNumber,
           code: verifyCode,
         })
         .then((result) => {
