@@ -77,7 +77,6 @@ router.get("/verify", urlencodedParser, (req, res) => {
       if (result.status == "approved") {
         console.log("successfully verified code");
       }
-      0;
       res.status(200).send({ result });
       res.render("shop");
     })
@@ -96,10 +95,11 @@ router.post(
 
     if (!error.isEmpty()) {
       console.log(error);
-      return res.status(422).json({
-        success: false,
-        errors: error.array(),
-      });
+      // return res.status(422).json({
+      //   success: false,
+      //   errors: error.array(),
+      // });
+      res.render('index');
     } else {
       // validate input number
       console.log(req.body.mobilenumber);
@@ -121,9 +121,8 @@ router.post(
       // non registered mobile phone number, send to registration
       if (existingPhoneNumber.length == 0) {
         console.log("New Mobile Number Needs To Be Registered");
-        res.json(phoneNumberFinal);
-        res.status(200).send({ result });
-        res.render("register");
+        // res.status(200).json(phoneNumberFinal).render("register");
+        res.render("register", { data: phoneNumberFinal });
       } else {
         console.log("Mobile Number Already Registered");
 

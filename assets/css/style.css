@@ -41,11 +41,12 @@ br {
   font-family: "Ms Madi", cursive;
   color: rgb(255, 255, 255);
   font-size: 3em;
+  margin: 2rem;
 }
 
 .form-container {
   margin: auto;
-  width: 60%;
+  width: 420px;
   display: flex;
   justify-content: space-around;
   align-items: center;
