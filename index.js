@@ -32,6 +32,7 @@ mongoose
   .then((result) => {
     // import routes
     const authRoute = require("./routes/auth");
+    const shopRoute = require("./routes/shop");
 
     app.set("views", path.join(__dirname, "views"));
 
@@ -45,6 +46,7 @@ mongoose
 
     // route middleware routes
     app.use("/api/user", authRoute);
+    app.use("/api/shop", shopRoute);
 
     const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -111,14 +113,6 @@ mongoose
         },
       };
       weather.fetchGeoLocation("New York City");
-    });
-
-    app.get("/products", (req, res) => {
-      res.render("products");
-    });
-
-    app.get("/locations", (req, res) => {
-      res.render("locations");
     });
 
     console.log("SUCCESSFULL DB CONNECTION");

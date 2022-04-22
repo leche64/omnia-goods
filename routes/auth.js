@@ -27,7 +27,6 @@ router.post(
     const error = validationResult(req);
     var text = req.body;
 
-    //proceed if input params validated
     if (!error.isEmpty()) {
       return res.status(422).json({
         success: false,
@@ -35,46 +34,18 @@ router.post(
         message: text,
       });
     } else {
-      //check if phone number is in DB
-      const existingPhoneNumber = await Register.find({
-        mobilePhoneNumber: req.body.phonenumber,
-      }).exec();
+      console.log("Form inputs verified");
 
-      //if not, send twilio verify code
-      if (existingPhoneNumber.length === 0) {
-        sendVerifyCode(req.body.phonenumber);
-      }
+      sendVerifyCode(req.body.phonenumber);
+
+      console.log("Setting Session Variables");
       req.session.phoneNumber = req.body.phonenumber;
+      req.session.referralCode = req.body.referralcode;
+      req.session.firstName = req.body.firstname;
+      req.session.lastName = req.body.lastname;
+      req.session.birthday = req.body.birthday;
+      req.session.emailAddress = req.body.email;
       res.render("verify");
-
-      //verify pass, insert into db,
-
-      //sign jwt token
-
-      //access to shop
-
-      //verify fail, go to error screeen
-
-      // const register = new Register({
-      //   mobilePhoneNumber: req.body.mobilenumber,
-      //   referralCode: req.body.referalcode,
-      //   firstName: req.body.firstname,
-      //   lastName: req.body.lastname,
-      //   emailAddress: req.body.email,
-      // });
-
-      // console.log(register);
-
-      // register
-      //   .save()
-      //   .then((result) => {
-      //     console.log("SUCCESS inserting register entry");
-      //     res.send(result);
-      //   })
-      //   .catch((err) => {
-      //     console.log("FAILURE inserting register entry");
-      //     res.send(err);
-      //   });
     }
   }
 );
@@ -88,11 +59,7 @@ router.post(
 
     if (!error.isEmpty()) {
       console.log(error);
-      // return res.status(422).json({
-      //   success: false,
-      //   errors: error.array(),
-      // });
-      res.render("index");
+      res.redirect("/index");
     } else {
       // validate input number
       console.log(req.body.mobilenumber);
@@ -115,13 +82,15 @@ router.post(
       if (existingPhoneNumber.length == 0) {
         console.log("New Mobile Number Needs To Be Registered");
         // res.status(200).json(phoneNumberFinal).render("register");
-        res.render("register", { data: phoneNumberFinal });
+        res.redirect("/api/user/register");
       } else {
         console.log("Mobile Number Already Registered");
 
         // if already existed, send twilio verification
         console.log("SENDING TWILIO VERIFCATION");
-        sendVerifyCode(phoneNumberFinal, res);
+        sendVerifyCode(phoneNumberTrim, res);
+        req.session.phoneNumber = phoneNumberTrim;
+        res.redirect("/api/user/verify");
       }
     }
   }
@@ -145,27 +114,85 @@ router.post(
       });
     } else {
       const verifyCode = req.body.verifycode;
-      const phoneNumber = '+1' + req.session.phoneNumber;
+      const phoneNumberFormated = "+1" + req.session.phoneNumber;
+
       twilioClient.verify
         .services(process.env.TWILIO_SERVICE_SSID)
         .verificationChecks.create({
-          to: phoneNumber,
+          to: phoneNumberFormated,
           code: verifyCode,
         })
         .then((result) => {
           if (result.status == "approved") {
             console.log("successfully verified code");
           }
-          res.status(200).send({ result });
-          res.render("shop");
         })
         .catch((error) => {
           console.log(error);
           res.status(200).send({ error });
         });
+
+      // save verified phone number to database
+      // check if phone number is in DB
+      if (req.session.phoneNumber != null) {
+        const existingPhoneNumber = await Register.findOne({
+          mobilePhoneNumber: req.session.phoneNumber,
+        }).exec();
+
+        if (!existingPhoneNumber) {
+          await saveVerifiedRegister(req);
+        } else {
+          console.log('Login from existing register')
+        }
+
+        // create and sign jwt
+        const token = jwt.sign(
+          { _id: req.session.phoneNumber },
+          process.env.TOKEN_SECERT
+        );
+        console.log(token);
+
+        res.header("auth-token", token).redirect("/api/user/shop");
+      } else {
+        console.log(
+          "req.session.phoneNumber not found: " + req.session.phoneNumber
+        );
+      }
     }
   }
 );
+
+router.get("/verify", (req, res) => {
+  res.render("verify");
+});
+
+router.get('/register', function(req, res){
+  res.render("register");
+});
+
+router.get('/shop', function(req, res){
+  res.render("shop");
+});
+
+async function newFunction(req) {
+  const register = new Register({
+    mobilePhoneNumber: req.session.phoneNumber,
+    referralCode: req.session.referralCode,
+    firstName: req.session.firstName,
+    lastName: req.session.lastName,
+    birthday: req.session.birthday,
+    emailAddress: req.session.emailAddress,
+  });
+
+  const savedRegister = await register
+    .save()
+    .then((result) => {
+      console.log("SUCCESS inserting register entry");
+    })
+    .catch((err) => {
+      console.log("FAILURE inserting register entry" + err);
+    });
+}
 
 function sendVerifyCode(mobileNumber) {
   console.log("Attempting to sending twilio verification");
