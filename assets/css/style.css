@@ -38,7 +38,10 @@ br {
 }
 
 .header-container h1 {
-  font-family: "Ms Madi", cursive;
+  -font-family: "Ms Madi", cursive;
+  -font-family: 'Enriqueta', serif;
+  font-family: 'Rubik Puddles', cursive;
+  -font-family: 'Rubik', sans-serif;
   color: rgb(255, 255, 255);
   font-size: 3em;
   margin: 2rem;
@@ -130,47 +133,20 @@ br {
   position: relative;
   cursor: pointer;
   width: 100%;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
 .btn-one:hover {
   border: 1px solid #ffffff;
-  background: #127600c4;
+  background: #ffffffad;
   transition: 1s;
 }
 
-/* --- SELECT MENU --- */
-
-.select {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: auto;
-  max-width: 300px;
-  margin: 1rem;
-  grid-column-gap: 1px;
-}
-
-.select__item {
-  padding: 10px;
-  cursor: pointer;
-  font-family: "Heebo", sans-serif;
-  text-align: center;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.303);
-  transition: background 0.3s;
-  margin: 1px;
-}
-
-.select__item--selected {
-  background: #127600c4;
-  color: #ffffff;
-}
-
-/* ----------------- */
-
 .icons-weed {
   text-align: center;
+  color: #fff;
+  font-family: 'Enriqueta', serif;
 }
 
 .icons-weed .fa-solid {
@@ -565,6 +541,7 @@ h1 {
 
 .icons-weed {
   text-align: center;
+  font-size: 14px;
 }
 
 .icons-weed .fa-solid {
@@ -577,12 +554,14 @@ h1 {
 .card-container {
   display: flex;
   justify-content: center;
+  margin: 0.3rem;
 }
 
 .card {
   background-color: rgba(0, 70, 21, 0.797);
   padding: 0.7rem;
-  margin: 0 auto;
+  -margin: 0 auto;
+  margin: 0.1rem;
   /* display: flex; */
   flex-direction: column;
   align-items: center;
@@ -595,6 +574,7 @@ h1 {
   text-align: center;
   font-size: 10px;
   -width: 100%;
+  font-family: 'Sarala', sans-serif;
 }
 
 .card:hover {
@@ -613,16 +593,17 @@ input[id="card_four"]:checked ~ label[for="card_four"] .card {
 /* you can see based on which card is checked the border color will be changed */
 /* ~ selector selects the sibling elements, in this case the label */
 
-input[id="card_one"]:checked ~ label[for="card_one"] .card .check_btn,
-input[id="card_two"]:checked ~ label[for="card_two"] .card .check_btn,
-input[id="card_three"]:checked ~ label[for="card_three"] .card .check_btn,
-input[id="card_four"]:checked ~ label[for="card_four"] .card .check_btn {
-  background-color: rgb(255, 255, 255);
+input[id="edible_one"]:checked ~ label[for="edible_one"] .card,
+input[id="edible_two"]:checked ~ label[for="edible_two"] .card {
+  border-color: rgb(255, 255, 255);
 }
 
+input[id="vape_one"]:checked ~ label[for="vape_one"] .card,
+input[id="vape_two"]:checked ~ label[for="vape_two"] .card,
+input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
+  border-color: rgb(255, 255, 255);
+}
 
-
-/* its all done and the last thing is we need to remove the input radio btns */
-input {
+.card-container input{
   display: none;
 }

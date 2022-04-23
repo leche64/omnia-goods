@@ -19,9 +19,12 @@ var session = require("express-session");
 const app = express();
 app.use(
   session({
-    secret: "XASDASDA",
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
+    cookie: {
+      expires: 1000000,
+    },
   })
 );
 

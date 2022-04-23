@@ -6,14 +6,11 @@
   <body>
     <div class="form-container">
       <div class="header-container">
-        <h1>
-          Omnia Goods <br />
-          Dispensary. <br />
-          <img src="/images/weed.png" height="125" width="125" />
-        </h1>
+        <%- include('./partials/headerText.ejs') %>
       </div>
       <div class="middle-container">
         <div class="icons-weed">
+          <h3>Premium Flower</h3>
           <i class="fa-solid fa-cannabis"></i>
           <i class="fa-solid fa-bong"></i>
           <i class="fa-solid fa-joint"></i>
@@ -50,6 +47,7 @@
             </label>
           </div>
           <div class="icons-weed">
+            <h3>Michelin Star Edibles</h3>
             <i class="fa-solid fa-candy-cane"></i>
             <i class="fa-solid fa-cannabis"></i>
             <i class="fa-solid fa-candy-cane"></i>
@@ -61,7 +59,7 @@
             <label for="edible_one">
               <div class="card">
                 <div class="img"></div>
-                <h3>Choc Blaze Bars $20</h3>
+                <h3>Choc Blaze Bar $20</h3>
               </div>
             </label>
             <label for="edible_two">
@@ -73,8 +71,29 @@
             </label>
           </div>
           <div class="icons-weed">
+            <h3>Pre-Rolls and Oils</h3>
             <i class="fa-solid fa-eye-dropper"></i>
             <i class="fa-solid fa-droplet"></i>
+          </div>
+          <div class="card-container">
+            <input type="radio" name="vape" id="vape_one" />
+            <input type="radio" name="vape" id="vape_two" />
+            <input type="radio" name="vape" id="vape_three" />
+            <label for="vape_one">
+              <div class="card">
+                <h3>Pre-Roll $20</h3>
+              </div>
+            </label>
+            <label for="vape_two">
+              <div class="card">
+                <h3>Doobies Pack (5) $50</h3>
+              </div>
+            </label>
+            <label for="vape_three">
+                <div class="card">
+                  <h3>Vape Cart $60</h3>
+                </div>
+              </label>
           </div>
           <button type="submit" class="btn-one">Order</button>
     </div>
