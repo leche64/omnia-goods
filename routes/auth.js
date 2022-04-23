@@ -45,10 +45,14 @@ router.post(
       req.session.lastName = req.body.lastname;
       req.session.birthday = req.body.birthday;
       req.session.emailAddress = req.body.email;
-      res.render("verify");
+      res.redirect("/api/user/verify");
     }
   }
 );
+
+router.get('/verify'), (req, res) => {
+  res.render('verify');
+}
 
 router.post(
   "/login",
@@ -148,11 +152,11 @@ router.post(
         // create and sign jwt
         const token = jwt.sign(
           { _id: req.session.phoneNumber },
-          process.env.TOKEN_SECERT
+          process.env.TOKEN_SECRET
         );
         console.log(token);
-
-        res.header("auth-token", token).redirect("/api/user/shop");
+        req.session.authToken = token;   
+        res.header("auth-token", token).redirect('/api/shop');
       } else {
         console.log(
           "req.session.phoneNumber not found: " + req.session.phoneNumber
@@ -168,10 +172,6 @@ router.get("/verify", (req, res) => {
 
 router.get('/register', function(req, res){
   res.render("register");
-});
-
-router.get('/shop', function(req, res){
-  res.render("shop");
 });
 
 async function newFunction(req) {

@@ -5,7 +5,7 @@ const axios = require("axios");
 //const { JSDOM } = jsdom;
 
 const bodyParser = require("body-parser");
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, body } = require("express-validator");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const Register = require("./models/Register");
@@ -46,14 +46,12 @@ mongoose
     // middleware & static files
     app.use(express.static(__dirname + "/assets/"));
     app.use(express.json());
+    app.use(express.urlencoded({ extended: true })); 
 
-    // route middleware routes
     app.use("/api/user", authRoute);
     app.use("/api/shop", shopRoute);
 
-    const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-    app.get("/", urlencodedParser, (req, res) => {
+    app.get("/", (req, res) => {
       //var data = fs.readFileSync(__dirname + "/views/index.ejs", "utf8");
       //const dom = new JSDOM(data);
       // console.log(data);

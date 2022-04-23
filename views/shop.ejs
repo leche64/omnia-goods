@@ -16,11 +16,12 @@
           <i class="fa-solid fa-joint"></i>
           <i class="fa-solid fa-cannabis"></i>
         </div>
-        <div class="card-container">
-            <input type="radio" name="card" id="card_one" />
-            <input type="radio" name="card" id="card_two" />
-            <input type="radio" name="card" id="card_three" />
-            <input type="radio" name="card" id="card_four" />
+        <form action="/api/shop/order" method="post">
+          <div class="card-container">
+            <input type="radio" name="card" id="card_one" value="card_one"/>
+            <input type="radio" name="card" id="card_two" value="card_two"/>
+            <input type="radio" name="card" id="card_three" value="card_three"/>
+            <input type="radio" name="card" id="card_four" value="card_four"/>
             <label for="card_one">
               <div class="card">
                 <div class="img"></div>
@@ -54,8 +55,8 @@
             <i class="fa-solid fa-cannabis"></i>
           </div>
           <div class="card-container">
-            <input type="radio" name="edible" id="edible_one" />
-            <input type="radio" name="edible" id="edible_two" />
+            <input type="radio" name="edible" id="edible_one" value="edible_one"/>
+            <input type="radio" name="edible" id="edible_two" value="edible_two"/>
             <label for="edible_one">
               <div class="card">
                 <div class="img"></div>
@@ -76,9 +77,9 @@
             <i class="fa-solid fa-droplet"></i>
           </div>
           <div class="card-container">
-            <input type="radio" name="vape" id="vape_one" />
-            <input type="radio" name="vape" id="vape_two" />
-            <input type="radio" name="vape" id="vape_three" />
+            <input type="radio" name="vape" id="vape_one"  value="vape_one"/>
+            <input type="radio" name="vape" id="vape_two"  value="vape_two"/>
+            <input type="radio" name="vape" id="vape_three"  value="vape_three"/>
             <label for="vape_one">
               <div class="card">
                 <h3>Pre-Roll $20</h3>
@@ -96,6 +97,7 @@
               </label>
           </div>
           <button type="submit" class="btn-one">Order</button>
+        </form>
     </div>
   </body>
 </html>

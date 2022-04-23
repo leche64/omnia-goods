@@ -39,9 +39,9 @@ br {
 
 .header-container h1 {
   -font-family: "Ms Madi", cursive;
-  -font-family: 'Enriqueta', serif;
-  font-family: 'Rubik Puddles', cursive;
-  -font-family: 'Rubik', sans-serif;
+  -font-family: "Enriqueta", serif;
+  font-family: "Rubik Puddles", cursive;
+  -font-family: "Rubik", sans-serif;
   color: rgb(255, 255, 255);
   font-size: 3em;
   margin: 2rem;
@@ -81,7 +81,7 @@ br {
 
 .form-name label {
   position: absolute;
-  bottom: 0px;
+  bottom: -0.5px;
   left: 0;
   height: 100%;
   width: 100%;
@@ -146,7 +146,7 @@ br {
 .icons-weed {
   text-align: center;
   color: #fff;
-  font-family: 'Enriqueta', serif;
+  font-family: "Enriqueta", serif;
 }
 
 .icons-weed .fa-solid {
@@ -574,7 +574,7 @@ h1 {
   text-align: center;
   font-size: 10px;
   -width: 100%;
-  font-family: 'Sarala', sans-serif;
+  font-family: "Sarala", sans-serif;
 }
 
 .card:hover {
@@ -604,6 +604,11 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   border-color: rgb(255, 255, 255);
 }
 
-.card-container input{
+.card-container input {
   display: none;
+}
+
+.confirm {
+  text-align: center;
+  color: #fff;
 }
