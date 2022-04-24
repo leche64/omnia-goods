@@ -67,11 +67,10 @@ router.post(
     } else {
       // validate input number
       console.log(req.body.mobilenumber);
+
       // trim white space
       const phoneNumber = req.body.mobilenumber.replace(/\s/g, "");
-
       const phoneNumberTrim = phoneNumber.replace(/-/g, "");
-
       const phoneNumberFinal = "+1" + phoneNumberTrim;
 
       console.log(phoneNumberFinal);
@@ -128,7 +127,9 @@ router.post(
         })
         .then((result) => {
           if (result.status == "approved") {
-            console.log("successfully verified code");
+            console.log("[SUCCESS] Code Verified");
+          } else {
+            console.log("[FAILURE] Verification Code Doesn't Match");
           }
         })
         .catch((error) => {
