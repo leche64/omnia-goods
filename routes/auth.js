@@ -182,7 +182,7 @@ router.get("/register", function (req, res) {
   res.render("register");
 });
 
-async function newFunction(req) {
+async function saveVerifiedRegister(req) {
   const register = new Register({
     mobilePhoneNumber: req.session.phoneNumber,
     referralCode: req.session.referralCode,
