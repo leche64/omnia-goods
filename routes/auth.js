@@ -28,11 +28,13 @@ router.post(
     var text = req.body;
 
     if (!error.isEmpty()) {
-      return res.status(422).json({
-        success: false,
-        errors: error.array(),
-        message: text,
-      });
+      // TODO: send error message back with redirect 
+      console.log(error.array());
+      // return res.status(422).json({
+      //   success: false,
+      //   errors: error.array(),
+      //   message: text,
+      // });
     } else {
       console.log("Form inputs verified");
 
@@ -50,9 +52,10 @@ router.post(
   }
 );
 
-router.get('/verify'), (req, res) => {
-  res.render('verify');
-}
+router.get("/verify"),
+  (req, res) => {
+    res.render("verify");
+  };
 
 router.post(
   "/login",
@@ -110,11 +113,14 @@ router.post(
     const error = validationResult(req);
 
     if (!error.isEmpty()) {
+      // TODO: send error message back with redirect 
+      console.log('Input Validation Failed');
       console.log(error);
-      return res.status(422).json({
-        success: false,
-        errors: error.array(),
-      });
+      res.redirect("/api/user/verify");
+      // return res.status(422).json({
+      //   success: false,
+      //   errors: error.array(),
+      // });
     } else {
       const verifyCode = req.body.verifycode;
       const phoneNumberFormated = "+1" + req.session.phoneNumber;
@@ -125,44 +131,45 @@ router.post(
           to: phoneNumberFormated,
           code: verifyCode,
         })
-        .then((result) => {
+        .then(async (result) => {
           if (result.status == "approved") {
             console.log("[SUCCESS] Code Verified");
+            // save verified phone number to database
+            // check if phone number is in DB
+            if (req.session.phoneNumber != null) {
+              const existingPhoneNumber = await Register.findOne({
+                mobilePhoneNumber: req.session.phoneNumber,
+              }).exec();
+
+              if (!existingPhoneNumber) {
+                await saveVerifiedRegister(req);
+              } else {
+                console.log("Login from existing register");
+              }
+
+              // create and sign jwt
+              const token = jwt.sign(
+                { _id: req.session.phoneNumber },
+                process.env.TOKEN_SECRET
+              );
+              console.log(token);
+              req.session.authToken = token;
+              res.header("auth-token", token).redirect("/api/shop");
+            } else {
+              console.log(
+                "req.session.phoneNumber not found: " + req.session.phoneNumber
+              );
+              res.redirect("/index");
+            }
           } else {
             console.log("[FAILURE] Verification Code Doesn't Match");
+            res.redirect("/api/user/verify");
           }
         })
         .catch((error) => {
           console.log(error);
           res.status(200).send({ error });
         });
-
-      // save verified phone number to database
-      // check if phone number is in DB
-      if (req.session.phoneNumber != null) {
-        const existingPhoneNumber = await Register.findOne({
-          mobilePhoneNumber: req.session.phoneNumber,
-        }).exec();
-
-        if (!existingPhoneNumber) {
-          await saveVerifiedRegister(req);
-        } else {
-          console.log('Login from existing register')
-        }
-
-        // create and sign jwt
-        const token = jwt.sign(
-          { _id: req.session.phoneNumber },
-          process.env.TOKEN_SECRET
-        );
-        console.log(token);
-        req.session.authToken = token;   
-        res.header("auth-token", token).redirect('/api/shop');
-      } else {
-        console.log(
-          "req.session.phoneNumber not found: " + req.session.phoneNumber
-        );
-      }
     }
   }
 );
@@ -171,7 +178,7 @@ router.get("/verify", (req, res) => {
   res.render("verify");
 });
 
-router.get('/register', function(req, res){
+router.get("/register", function (req, res) {
   res.render("register");
 });
 
