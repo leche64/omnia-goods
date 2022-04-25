@@ -536,9 +536,90 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   width: 20%;
 }
 
-/* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-#map {
-  height: 30%;
-  width: 75%;
+/*  */
+
+.sb-title {
+  position: relative;
+  top: -12px;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+}
+
+.sb-title-icon {
+  position: relative;
+  top: -5px;
+}
+
+.card-container-map {
+  display: flex;
+  height: 500px;
+  width: 600px;
+  @media (max-width: 430px) {
+    display: inline;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .card-container-map {
+    margin: 0;
+    display: inline;
+    height: 250px;
+    width: 300px;
+  }
+}
+
+.panel {
+  background: white;
+  width: 100%;
+  height: 400px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.half-input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half-input {
+  max-width: 120px;
+}
+
+.map {
+  width: 100%;
+  height: 400px;
+}
+
+.card-container-map h2 {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+.card-container-map input {
+  border: 0;
+  border-bottom: 1px solid black;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* input:focus::placeholder {
+  color: white;
+} */
+
+.button-cta {
+  height: 40px;
+  width: 40%;
+  background: #3367d6;
+  color: white;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-family: Roboto, sans-serif;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.48);
+  cursor: pointer;
 }
