@@ -1,6 +1,12 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --line-border-fill: #9c27b0;
+  --line-border-empty: #bdbdbd;
 }
 
 body {
@@ -23,7 +29,92 @@ body {
 }
 
 .body-container {
-  width: 60%;
+  width: 75%;
+  text-align: center;
+}
+
+.body-container h1 {
+  margin-bottom: 90px;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 30px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.progress-container::before {
+  content: "";
+  background-color: var(--line-border-fill);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  z-index: -1;
+  transition: 0.4s ease;
+}
+
+.progress {
+  background-color: var(--line-border-fill);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 0%;
+  z-index: -1;
+  transition: 0.4s ease;
+}
+
+.circle {
+  background-color: #fff;
+  color: #999;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  border: 3px solid #b3bec3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s ease;
+}
+
+.circle.active {
+  border-color: var(--line-border-fill);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled{
+  background-color: var(--line-border-empty);
+  cursor: not-allowed;
+}
+
+.fa-html5 {
+  font-size: 1.8rem;
+  color: #f44336;
+}
+
+.fa-css3-alt {
+  font-size: 1.8rem;
+  color: rgba(0, 35, 209, 0.797);
+}
+
+.fa-js {
+  font-size: 1.8rem;
+  color: rgba(226, 226, 2, 0.797);
+}
+
+.fa-react {
+  font-size: 1.8rem;
+  color: rgba(0, 188, 209, 0.797);
 }
 
 br {
