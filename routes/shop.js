@@ -14,7 +14,9 @@ router.get("/", (req, res) => {
 
 //TODO verify jwt
 router.get("/confirm", (req, res) => {
-  res.render("confirm");
+  //res.render("statusPendingDelivery");
+  //res.render("statusOutForDelivery");
+  res.render("statusDelivered");
 });
 
 router.get("/dev", (req, res) => {

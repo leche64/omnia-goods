@@ -235,6 +235,10 @@ br {
   transition: 1s;
 }
 
+.btn-one:active {
+  transform: scale(0.97);
+}
+
 .icons-weed {
   text-align: center;
   color: #fff;
