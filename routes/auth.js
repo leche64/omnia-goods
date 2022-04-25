@@ -188,6 +188,11 @@ router.get("/verifyLocation", function (req, res) {
   res.render("verifyLocation");
 });
 
+router.post("/verifyLocation", function (req, res) {
+  console.log('yoyoyoyo')
+  res.send("fucking titties");
+});
+
 async function saveVerifiedRegister(req) {
   const register = new Register({
     mobilePhoneNumber: req.session.phoneNumber,
