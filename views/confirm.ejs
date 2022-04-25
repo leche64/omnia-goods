@@ -9,13 +9,31 @@
         <%- include('./partials/headerText.ejs') %>
       </div>
       <div class="body-container">
-        <h1>Step Progress Bar</h1>
-        <div class="progress-container">
-          <div class="progress" id="progress"></div>
-          <div class="circle active"><i class="fab fa-html5"></i></div>
-          <div class="circle active"><i class="fab fa-css3-alt"></i></div>
-          <div class="circle"><i class="fab fa-js"></i></div>
-          <div class="circle"><i class="fab fa-react"></i></div>
+        <div class="stepper-wrapper">
+          <div class="stepper-item completed">
+            <div class="step-counter">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="step-name">Order Received</div>
+          </div>
+          <div class="stepper-item completed">
+            <div class="step-counter">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="step-name">Waiting for Delivery Courrier</div>
+          </div>
+          <div class="stepper-item pending">
+            <div class="step-counter">
+              <i class="fa-solid fa-bicycle"></i>
+            </div>
+            <div class="step-name">Out for Delivery</div>
+          </div>
+          <div class="stepper-item">
+            <div class="step-counter">
+              <i class="fa-solid fa-house-user"></i>
+            </div>
+            <div class="step-name">Delivered</div>
+          </div>
         </div>
       </div>
     </div>

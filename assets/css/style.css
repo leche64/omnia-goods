@@ -92,7 +92,7 @@ body {
   transform: scale(0.97);
 }
 
-.btn:disabled{
+.btn:disabled {
   background-color: var(--line-border-empty);
   cursor: not-allowed;
 }
@@ -125,7 +125,7 @@ br {
 
 .header-container {
   text-align: center;
-  margin: auto;
+  margin-bottom: 2rem;
 }
 
 .header-container h1 {
@@ -133,13 +133,14 @@ br {
   -font-family: "Enriqueta", serif;
   font-family: "Rubik Puddles", cursive;
   -font-family: "Rubik", sans-serif;
-  color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255, 1);
   font-size: 3em;
-  margin: 2rem;
+  margin: 1rem;
 }
 
 .form-container {
   margin: auto;
+  height: 60%;
   width: 420px;
   display: flex;
   justify-content: space-around;
@@ -172,7 +173,7 @@ br {
 
 .form-name label {
   position: absolute;
-  bottom: -0.5px;
+  bottom: 0px;
   left: 0;
   height: 100%;
   width: 100%;
@@ -754,4 +755,128 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
 .confirm {
   font-family: "Sarala", sans-serif;
   font-size: 14px;
+}
+
+.stepper-wrapper {
+  font-family: Arial;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.step-name {
+  font-family: "Sarala", sans-serif;
+  padding: 1px;
+  color: white;
+}
+
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+@-webkit-keyframes pulsing {
+  0% {
+    -webkit-transform: scale(0.95, 0.95);
+    transform: scale(0.95, 0.95);
+  }
+  50% {
+    -webkit-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+  }
+  100% {
+    -webkit-transform: scale(0.95, 0.95);
+    transform: scale(0.95, 0.95);
+  }
+}
+
+@keyframes pulsing {
+  0% {
+    -webkit-transform: scale(0.95, 0.95);
+    transform: scale(0.95, 0.95);
+  }
+  50% {
+    -webkit-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+  }
+  100% {
+    -webkit-transform: scale(0.95, 0.95);
+    transform: scale(0.95, 0.95);
+  }
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(180, 180, 180, 0);
+  margin-bottom: 6px;
+}
+
+.stepper-item.active {
+  font-weight: bold;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: rgba(67, 209, 2, 1);
+}
+
+.stepper-item.pending .step-counter {
+  background-color: #84cdc7;
+  -webkit-animation: pulsing 2s infinite;
+  animation: pulsing 2s infinite;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid rgba(67, 209, 2, 1);
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+
+.fa-solid {
+  color: #fff;
 }
