@@ -5,19 +5,20 @@
   </head>
   <body>
     <div class="form-container">
-        <div class="header-container">
-          <%- include('./partials/headerText.ejs') %>
-        </div>
-        <div class="body-container">
-            <form action="/api/user/verify/" method="post">
-                <div class="form-name">
-                    <input type="text" name="verifycode" autocomplete="off" required />
-                    <label for="verifycode" class="label-name">
-                      <span class="content-name"> Verify Code </span>
-                    </label>
-                  </div>
-                  <button type="submit" class="btn-one">Verify</button>
-            </form>
-        </div>
+      <div class="header-container">
+        <%- include('./partials/headerText.ejs') %>
+      </div>
+      <div class="body-container">
+        <form action="/api/user/verify/" method="post">
+          <div class="form-name">
+            <input type="text" name="verifycode" autocomplete="off" required />
+            <label for="verifycode" class="label-name">
+              <span class="content-name"> Verify Code </span>
+            </label>
+          </div>
+          <button type="submit" class="btn-one">Verify</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

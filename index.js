@@ -28,6 +28,8 @@ app.use(
   })
 );
 
+app.use(require("morgan")("dev"));
+
 // mongo db connection
 const dbURI = process.env.DB_CONNECT;
 mongoose
@@ -46,7 +48,7 @@ mongoose
     // middleware & static files
     app.use(express.static(__dirname + "/assets/"));
     app.use(express.json());
-    app.use(express.urlencoded({ extended: true })); 
+    app.use(express.urlencoded({ extended: true }));
 
     app.use("/api/user", authRoute);
     app.use("/api/shop", shopRoute);
@@ -114,6 +116,14 @@ mongoose
         },
       };
       weather.fetchGeoLocation("New York City");
+    });
+
+    app.get("/error", (req, res) => {
+      throw new Error("Sorry we're Stoned");
+    });
+
+    app.use(function (req, res) {
+      res.render("404");
     });
 
     console.log("SUCCESSFULL DB CONNECTION");

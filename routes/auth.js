@@ -2,6 +2,8 @@ const router = require("express").Router();
 const bodyParser = require("body-parser");
 const { check, validationResult } = require("express-validator");
 const Register = require("../models/Register");
+const googleMaps = require("./verifyLocation");
+const axios = require("axios");
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -28,7 +30,7 @@ router.post(
     var text = req.body;
 
     if (!error.isEmpty()) {
-      // TODO: send error message back with redirect 
+      // TODO: send error message back with redirect
       console.log(error.array());
       // return res.status(422).json({
       //   success: false,
@@ -113,8 +115,8 @@ router.post(
     const error = validationResult(req);
 
     if (!error.isEmpty()) {
-      // TODO: send error message back with redirect 
-      console.log('Input Validation Failed');
+      // TODO: send error message back with redirect
+      console.log("Input Validation Failed");
       console.log(error);
       res.redirect("/api/user/verify");
       // return res.status(422).json({
@@ -182,6 +184,10 @@ router.get("/register", function (req, res) {
   res.render("register");
 });
 
+router.get("/verifyLocation", function (req, res) {
+  res.render("verifyLocation");
+});
+
 async function saveVerifiedRegister(req) {
   const register = new Register({
     mobilePhoneNumber: req.session.phoneNumber,
@@ -218,5 +224,4 @@ function sendVerifyCode(mobileNumber) {
       console.log(error);
     });
 }
-
 module.exports = router;

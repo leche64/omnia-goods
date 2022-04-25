@@ -28,15 +28,6 @@ body {
   height: 100vh;
 }
 
-.body-container {
-  width: 75%;
-  text-align: center;
-}
-
-.body-container h1 {
-  margin-bottom: 90px;
-}
-
 .progress-container {
   display: flex;
   justify-content: space-between;
@@ -138,9 +129,14 @@ br {
   margin: 1rem;
 }
 
+.body-container {
+  width: 75%;
+  text-align: center;
+}
+
 .form-container {
   margin: auto;
-  height: 60%;
+  height: 78%;
   width: 420px;
   display: flex;
   justify-content: space-around;
@@ -255,7 +251,6 @@ br {
 /* -------NEW ABOVE---------- */
 /* ----------------- */
 /* ----------------- */
-
 
 .footer {
   -position: fixed;
@@ -539,4 +534,11 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
 
 .header-img img {
   width: 20%;
+}
+
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+  height: 30%;
+  width: 75%;
 }
