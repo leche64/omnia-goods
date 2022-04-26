@@ -557,9 +557,7 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
 /*  */
 
 .sb-title {
-  position: relative;
-  top: -12px;
-  font-family: Roboto, sans-serif;
+  font-family: "Enriqueta", serif;
   font-weight: 500;
 }
 
