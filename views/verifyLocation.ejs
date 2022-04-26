@@ -4,45 +4,67 @@
     <%- include('./partials/head.ejs') %>
   </head>
   <body>
-    <form action="/api/user/verifyLocation/" method="post">
-      <div class="card-container-map">
-        <div class="panel">
-          <div>
-            <img
-              class="sb-title-icon"
-              src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg"
-              alt=""
-            />
-            <span class="sb-title">Address Selection</span>
-          </div>
-          <input
-            type="text"
-            placeholder="Address"
-            id="location-input"
-            autocomplete="off"
-          />
-          <input type="text" placeholder="Apt, Suite, etc (optional)" />
-          <input type="text" placeholder="City" id="locality-input" />
-          <div class="half-input-container">
-            <input
-              type="text"
-              class="half-input"
-              placeholder="State/Province"
-              id="administrative_area_level_1-input"
-            />
-            <input
-              type="text"
-              class="half-input"
-              placeholder="Zip/Postal code"
-              id="postal_code-input"
-            />
-          </div>
-          <input type="text" placeholder="Country" id="country-input" />
-          <button class="button-cta">Checkout</button>
-        </div>
-        <div class="map" id="gmp-map"></div>
+    <div class="form-container">
+      <div class="header-container">
+        <%- include('./partials/headerText.ejs') %>
       </div>
-    </form>
+      <form action="/api/user/verifyLocation/" method="post">
+        <div class="card-container-map">
+          <div class="panel">
+            <div>
+              <img
+                class="sb-title-icon"
+                src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg"
+                alt=""
+              />
+              <span class="sb-title">Verify Address</span>
+            </div>
+            <input
+              type="text"
+              placeholder="Address"
+              name="address"
+              id="location-input"
+              autocomplete="off"
+            />
+            <input
+              type="text"
+              placeholder="Apt/Suite"
+              name="apt"
+            />
+            <input
+              type="text"
+              placeholder="City"
+              name="city"
+              id="locality-input"
+            />
+            <div class="half-input-container">
+              <input
+                type="text"
+                class="half-input"
+                placeholder="State/Province"
+                name="state"
+                id="administrative_area_level_1-input"
+              />
+              <input
+                type="text"
+                class="half-input"
+                placeholder="Zip/Postal code"
+                name="zip"
+                id="postal_code-input"
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Country"
+              name="country"
+              id="country-input"
+            />
+            <button class="button-cta">Submit</button>
+          </div>
+          <div class="map" id="gmp-map"></div>
+        </div>
+      </form>
+    </div>
     <script>
       "use strict";
 

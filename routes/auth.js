@@ -189,7 +189,8 @@ router.get("/verifyLocation", function (req, res) {
 });
 
 router.post("/verifyLocation", function (req, res) {
-  console.log('yoyoyoyo')
+  console.log(req.body.apt);
+  console.log(req.body.address);
   res.send("fucking titties");
 });
 
