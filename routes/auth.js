@@ -70,15 +70,10 @@ router.post(
       console.log(error);
       res.redirect("/index");
     } else {
-      // validate input number
-      console.log(req.body.mobilenumber);
-
       // trim white space
       const phoneNumber = req.body.mobilenumber.replace(/\s/g, "");
       const phoneNumberTrim = phoneNumber.replace(/-/g, "");
       const phoneNumberFinal = "+1" + phoneNumberTrim;
-
-      console.log(phoneNumberFinal);
 
       // check if phone number exist in db
       const existingPhoneNumber = await Register.find({
@@ -86,11 +81,17 @@ router.post(
       }).exec();
       console.log(existingPhoneNumber);
 
-      // non registered mobile phone number, send to registration
+      // new mobile phone number, send to location verification
       if (existingPhoneNumber.length == 0) {
-        console.log("New Mobile Number Needs To Be Registered");
-        // res.status(200).json(phoneNumberFinal).render("register");
-        res.redirect("/api/user/register");
+        console.log(
+          "New Mobile Number Needs To Be Registered and Verified: " +
+            phoneNumberTrim
+        );
+        req.session.phoneNumber = phoneNumberTrim;
+        // res.redirect("/api/user/verifyLocation");
+        res.render("verifyLocation", {
+          phoneNumber: phoneFormat(phoneNumberTrim),
+        });
       } else {
         console.log("Mobile Number Already Registered");
 
@@ -189,8 +190,12 @@ router.get("/verifyLocation", function (req, res) {
 });
 
 router.post("/verifyLocation", function (req, res) {
-  console.log(req.body.apt);
   console.log(req.body.address);
+  console.log(req.body.apt);
+  console.log(req.body.city);
+  console.log(req.body.state);
+  console.log(req.body.zip);
+  console.log(req.body.country);
   res.send("fucking titties");
 });
 
@@ -229,5 +234,19 @@ function sendVerifyCode(mobileNumber) {
     .catch((error) => {
       console.log(error);
     });
+}
+
+function phoneFormat(input) {
+  if (!input || isNaN(input)) return `input must be a number was sent ${input}`;
+  if (typeof input !== "string") input = input.toString();
+  if (input.length === 10) {
+    return input.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  } else if (input.length < 10) {
+    return "was not supplied enough numbers please pass a 10 digit number";
+  } else if (input.length > 10) {
+    return "was supplied too many numbers please pass a 10 digit number";
+  } else {
+    return "something went wrong";
+  }
 }
 module.exports = router;
