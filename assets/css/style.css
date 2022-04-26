@@ -116,7 +116,7 @@ br {
 
 .header-container {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0.1rem;
 }
 
 .header-container h1 {
@@ -149,7 +149,7 @@ br {
 }
 
 .info-container {
-  margin: auto;
+  margin: 1rem;
   text-align: center;
   width: 75%;
   font-family: "Enriqueta", serif;
@@ -242,7 +242,7 @@ br {
 }
 
 .btn-one:disabled,
-.btn-one[disabled]{
+.btn-one[disabled] {
   border: 1px solid #ffffff;
   background-color: #ccccccc5;
   color: #666666;
@@ -537,7 +537,7 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
 }
 
 .card-container-map {
-  margin: 1rem;
+  margin: 0.1rem;
   display: flex;
   height: 500px;
   width: 600px;
@@ -603,20 +603,87 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   background: rgba(255, 255, 255, 0);
 }
 
-/* input:focus::placeholder {
-  color: white;
-} */
+/*  */
 
-.button-cta {
-  height: 40px;
-  width: 40%;
-  background: #3367d6;
-  color: white;
-  font-size: 15px;
-  text-transform: uppercase;
-  font-family: Roboto, sans-serif;
-  border: 0;
-  border-radius: 3px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.48);
-  cursor: pointer;
+@keyframes slide {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -120px 60px;
+  }
+}
+
+.info-banner {
+  text-align: center;
+  width: 70%;
+  padding: 0.5rem;
+  background-color: rgba(61, 182, 0, 0.459);
+  border-radius: 5px;
+  display: none;
+  -moz-animation: fadein 3s; /* Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  -o-animation: fadein 3s; /* Opera */
+}
+
+.info-banner-body {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+  font-size: 14px;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(5px);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+@-webkit-keyframes bounce {
+  from {
+    transform: translateY(5px);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

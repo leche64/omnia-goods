@@ -14,6 +14,25 @@
           Manhantten. Verify below if your address is within our delivery area.
         </h3>
       </div>
+      <div class="info-banner">
+        <span class="info-banner-body">
+          The address you've entered is in our delivery range! Continue with
+          registration and place your order!
+        </span>
+        <span class="info-banner-body">
+          <i class="fa-solid fa-circle-check"></i>
+          <i class="fa-solid fa-circle-check"></i>
+          <i class="fa-solid fa-circle-check"></i>
+        </span>
+      </div>
+      <!-- <div class="info-banner">
+        <span class="info-banner-body info-banner-right">
+          Sorry but the address you've entered is outside our range delivery range.
+        </span>
+        <span class="info-banner-body info-banner-left">
+          <i class="fa-solid fa-cow"></i>
+        </span>
+      </div> -->
       <form action="/api/user/verifyLocation/" method="post">
         <div class="card-container-map">
           <div class="panel">
@@ -132,6 +151,8 @@
         let button = document.querySelector(".btn-one");
         button.disabled = true; //setting button state to disabled
 
+        let infoBanner = document.querySelector(".info-banner");
+
         // center: { lat: 40.714728, lng: -73.998672 }
         const center = new google.maps.LatLng(
           40.73440183521817,
@@ -215,6 +236,8 @@
           ) {
             console.log("The area contains the address");
             button.disabled = false;
+            infoBanner.style.display = "inline";
+            
           } else {
             console.log("The address is outside of the area.");
             button.disabled = true;
