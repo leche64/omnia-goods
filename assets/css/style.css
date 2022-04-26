@@ -614,11 +614,25 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   }
 }
 
-.info-banner {
+.info-banner-pass {
   text-align: center;
   width: 70%;
   padding: 0.5rem;
+  margin: 1rem;
   background-color: rgba(61, 182, 0, 0.459);
+  border-radius: 5px;
+  display: none;
+  -moz-animation: fadein 3s; /* Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  -o-animation: fadein 3s; /* Opera */
+}
+
+.info-banner-fail {
+  text-align: center;
+  width: 70%;
+  padding: 0.5rem;
+  margin: 1rem;
+  background-color: rgba(210, 0, 0, 0.535);
   border-radius: 5px;
   display: none;
   -moz-animation: fadein 3s; /* Firefox */
