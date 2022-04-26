@@ -11,8 +11,6 @@
       <div class="info-container">
         <h3>
           The mobile number (<%= phoneNumber %>) you entered hasn't been verified yet. Before we can deliver to you, we'll need to verify your home address is within our delivery area. We currently deliver goods to Lower Manhantten, New York City.
-          <br>
-
         </h3>
       </div>
       <div class="info-banner-pass">
@@ -20,21 +18,23 @@
           The address you've entered is in our delivery range! Continue with
           registration and shop our products!
         </span>
-        <span class="info-banner-body">
+        <br>
+        <div class="info-banner-icon">
           <i class="fa-solid fa-circle-check"></i>
           <i class="fa-solid fa-circle-check"></i>
           <i class="fa-solid fa-circle-check"></i>
-        </span>
+        </div>
       </div>
       <div class="info-banner-fail">
         <span class="info-banner-body info-banner-right">
           Sorry but the address you've entered is outside our current delivery range. We don't deliver to you yet, but we might in the future as we expand!
         </span>
-        <span class="info-banner-body info-banner-left">
+        <br>
+        <div class="info-banner-icon">
           <i class="fa-solid fa-cow"></i>
           <i class="fa-solid fa-otter"></i>
           <i class="fa-solid fa-hippo"></i>
-        </span>
+        </div>
       </div>
       <form action="/api/user/verifyLocation/" method="post">
         <div class="card-container-map">
@@ -244,12 +244,12 @@
           ) {
             console.log("The area contains the address");
             button.disabled = false;
-            infoBannerPass.style.display = "inline";
+            infoBannerPass.style.display = "inline-block";
             
           } else {
             console.log("The address is outside of the area.");
             button.disabled = true;
-            infoBannerFail.style.display = "inline";
+            infoBannerFail.style.display = "inline-block";
           }
 
           renderAddress(place);

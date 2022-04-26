@@ -2,7 +2,6 @@ const router = require("express").Router();
 const bodyParser = require("body-parser");
 const { check, validationResult } = require("express-validator");
 const Register = require("../models/Register");
-const googleMaps = require("./verifyLocation");
 const axios = require("axios");
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -49,15 +48,10 @@ router.post(
       req.session.lastName = req.body.lastname;
       req.session.birthday = req.body.birthday;
       req.session.emailAddress = req.body.email;
-      res.redirect("/api/user/verify");
+      // res.redirect("/api/user/verify");
     }
   }
 );
-
-router.get("/verify"),
-  (req, res) => {
-    res.render("verify");
-  };
 
 router.post(
   "/login",
@@ -88,10 +82,8 @@ router.post(
             phoneNumberTrim
         );
         req.session.phoneNumber = phoneNumberTrim;
-        // res.redirect("/api/user/verifyLocation");
-        res.render("verifyLocation", {
-          phoneNumber: phoneFormat(phoneNumberTrim),
-        });
+
+        res.redirect("/api/user/verifyLocation");
       } else {
         console.log("Mobile Number Already Registered");
 
@@ -106,9 +98,9 @@ router.post(
 );
 
 router.post(
-  "/verify",
+  "/verifyPhone",
   urlencodedParser,
-  check("verifycode", "Verify code must be 5 characters long").isLength({
+  check("verifycode", "Verify code must be 6 characters long").isLength({
     min: 6,
     max: 6,
   }),
@@ -119,11 +111,12 @@ router.post(
       // TODO: send error message back with redirect
       console.log("Input Validation Failed");
       console.log(error);
-      res.redirect("/api/user/verify");
-      // return res.status(422).json({
-      //   success: false,
-      //   errors: error.array(),
-      // });
+
+      const msg =
+        "Please ensure the verification code entered is 6 characters long";
+      res.render("verifyPhone", {
+        msg: msg,
+      });
     } else {
       const verifyCode = req.body.verifycode;
       const phoneNumberFormated = "+1" + req.session.phoneNumber;
@@ -136,37 +129,44 @@ router.post(
         })
         .then(async (result) => {
           if (result.status == "approved") {
-            console.log("[SUCCESS] Code Verified");
+            console.log("[SUCCESS] Code Verified: " + verifyCode);
+            res.redirect("/api/user/register");
             // save verified phone number to database
             // check if phone number is in DB
-            if (req.session.phoneNumber != null) {
-              const existingPhoneNumber = await Register.findOne({
-                mobilePhoneNumber: req.session.phoneNumber,
-              }).exec();
+            // if (req.session.phoneNumber != null) {
+            //   const existingPhoneNumber = await Register.findOne({
+            //     mobilePhoneNumber: req.session.phoneNumber,
+            //   }).exec();
 
-              if (!existingPhoneNumber) {
-                await saveVerifiedRegister(req);
-              } else {
-                console.log("Login from existing register");
-              }
+            //   if (!existingPhoneNumber) {
+            //     console.log("New Phone Number Found, Attempting to Save Verified User");
+            //     await saveVerifiedRegister(req);
+            //   } else {
+            //     console.log("Login from existing register");
+            //   }
 
-              // create and sign jwt
-              const token = jwt.sign(
-                { _id: req.session.phoneNumber },
-                process.env.TOKEN_SECRET
-              );
-              console.log(token);
-              req.session.authToken = token;
-              res.header("auth-token", token).redirect("/api/shop");
-            } else {
-              console.log(
-                "req.session.phoneNumber not found: " + req.session.phoneNumber
-              );
-              res.redirect("/index");
-            }
+            //   // create and sign jwt
+            //   const token = jwt.sign(
+            //     { _id: req.session.phoneNumber },
+            //     process.env.TOKEN_SECRET
+            //   );
+            //   console.log(token);
+            //   req.session.authToken = token;
+            //   res.header("auth-token", token).redirect("/api/shop");
+            // } else {
+            //   console.log(
+            //     "req.session.phoneNumber not found: " + req.session.phoneNumber
+            //   );
+            //   res.redirect("/index");
+            // }
           } else {
             console.log("[FAILURE] Verification Code Doesn't Match");
-            res.redirect("/api/user/verify");
+
+            const msg =
+              "The verification code entered doesn't match. Please try again.";
+            res.render("verifyPhone", {
+              msg: msg,
+            });
           }
         })
         .catch((error) => {
@@ -177,8 +177,15 @@ router.post(
   }
 );
 
-router.get("/verify", (req, res) => {
-  res.render("verify");
+router.get("/verifyPhone", (req, res) => {
+  const numberFormated = phoneFormat(req.session.phoneNumber);
+  const msg =
+    "Please verify your phone number before proceeding. We sent a verification code to: (" +
+    numberFormated +
+    ")";
+  res.render("verifyPhone", {
+    msg: msg,
+  });
 });
 
 router.get("/register", function (req, res) {
@@ -186,17 +193,27 @@ router.get("/register", function (req, res) {
 });
 
 router.get("/verifyLocation", function (req, res) {
-  res.render("verifyLocation");
+  res.render("verifyLocation", {
+    phoneNumber: phoneFormat(req.session.phoneNumber),
+  });
 });
 
 router.post("/verifyLocation", function (req, res) {
-  console.log(req.body.address);
-  console.log(req.body.apt);
-  console.log(req.body.city);
-  console.log(req.body.state);
-  console.log(req.body.zip);
-  console.log(req.body.country);
-  res.send("fucking titties");
+  req.session.address = req.body.address;
+  req.session.apt = req.body.apt;
+  req.session.city = req.body.city;
+  req.session.state = req.body.state;
+  req.session.zip = req.body.zip;
+  req.session.country = req.body.country;
+
+  console.log(req.session.address);
+  console.log(req.session.apt);
+  console.log(req.session.city);
+  console.log(req.session.state);
+  console.log(req.session.zip);
+  console.log(req.session.country);
+  sendVerifyCode(req.session.phoneNumber);
+  res.redirect("/api/user/verifyPhone");
 });
 
 async function saveVerifiedRegister(req) {

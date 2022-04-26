@@ -9,7 +9,18 @@
         <%- include('./partials/headerText.ejs') %>
       </div>
       <div class="body-container">
-        <form action="/api/user/verify/" method="post">
+        <div class="info-banner-neutral">
+          <span class="info-banner-body">
+            <%= msg %>
+            <br />
+            <div class="info-banner-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <i class="fa-solid fa-mobile-retro"></i>
+              <i class="fa-solid fa-comment-dots"></i>
+            </div>
+          </span>
+        </div>
+        <form action="/api/user/verifyPhone/" method="post">
           <div class="form-name">
             <input type="text" name="verifycode" autocomplete="off" required />
             <label for="verifycode" class="label-name">

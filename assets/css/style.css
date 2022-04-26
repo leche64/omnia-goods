@@ -557,7 +557,7 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
     width: 335px;
   }
   .form-container {
-    height: 100vh;
+    height: 80vh;
     width: 420px;
   }
 }
@@ -636,8 +636,22 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   padding: 0.5rem;
   margin: 1rem;
   background-color: rgba(210, 0, 0, 0.535);
+  color: rgba(255, 255, 255, 0.777);
   border-radius: 5px;
   display: none;
+  -moz-animation: fadein 3s; /* Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  -o-animation: fadein 3s; /* Opera */
+}
+
+.info-banner-neutral {
+  width: 70%;
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(201, 201, 201, 0.195);
+  color: rgba(255, 255, 255, 0.777);
+  border-radius: 5px;
+  display: inline-block;
   -moz-animation: fadein 3s; /* Firefox */
   -webkit-animation: fadein 3s; /* Safari and Chrome */
   -o-animation: fadein 3s; /* Opera */
@@ -650,6 +664,10 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   vertical-align: middle;
   color: #fff;
   font-size: 14px;
+}
+
+.info-banner-icon {
+  margin-top: 0.5rem;
 }
 
 @keyframes bounce {
