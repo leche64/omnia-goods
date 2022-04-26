@@ -8,6 +8,12 @@
       <div class="header-container">
         <%- include('./partials/headerText.ejs') %>
       </div>
+      <div class="info-container">
+        <h3>
+          We currently only accept orders within a given range within lower
+          Manhantten. Verify below if your address is within our delivery area.
+        </h3>
+      </div>
       <form action="/api/user/verifyLocation/" method="post">
         <div class="card-container-map">
           <div class="panel">
@@ -19,47 +25,97 @@
               />
               <span class="sb-title">Verify Address</span>
             </div>
-            <input
-              type="text"
-              placeholder="Address"
-              name="address"
-              id="location-input"
-              autocomplete="off"
-            />
-            <input
-              type="text"
-              placeholder="Apt/Suite"
-              name="apt"
-            />
-            <input
-              type="text"
-              placeholder="City"
-              name="city"
-              id="locality-input"
-            />
-            <div class="half-input-container">
+            <div class="form-name">
               <input
                 type="text"
-                class="half-input"
-                placeholder="State/Province"
-                name="state"
-                id="administrative_area_level_1-input"
+                name="address"
+                autocomplete="off"
+                placeholder=""
+                required
+                id="location-input"
+                autocomplete="off"
               />
-              <input
-                type="text"
-                class="half-input"
-                placeholder="Zip/Postal code"
-                name="zip"
-                id="postal_code-input"
-              />
+              <label for="address" class="label-name">
+                <span class="content-name"> Address </span>
+              </label>
             </div>
-            <input
-              type="text"
-              placeholder="Country"
-              name="country"
-              id="country-input"
-            />
-            <button class="button-cta">Submit</button>
+
+            <div class="form-name">
+              <input
+                type="text"
+                name="apt"
+                autocomplete="off"
+                placeholder=""
+                required
+                id="location-input"
+                autocomplete="off"
+              />
+              <label for="apt" class="label-name">
+                <span class="content-name"> Apt/Suite </span>
+              </label>
+            </div>
+
+            <div class="form-name">
+              <input
+                type="text"
+                name="city"
+                autocomplete="off"
+                placeholder=""
+                id="locality-input"
+                autocomplete="off"
+                required
+              />
+              <label for="city" class="label-name">
+                <span class="content-name"> City </span>
+              </label>
+            </div>
+
+            <div class="form-name">
+              <input
+                type="text"
+                name="state"
+                autocomplete="off"
+                placeholder=""
+                id="administrative_area_level_1-input"
+                autocomplete="off"
+                required
+              />
+              <label for="state" class="label-name">
+                <span class="content-name"> State </span>
+              </label>
+            </div>
+
+            <div class="form-name">
+              <input
+                type="text"
+                name="zip"
+                autocomplete="off"
+                placeholder=""
+                id="postal_code-input"
+                autocomplete="off"
+                required
+              />
+              <label for="zip" class="label-name">
+                <span class="content-name"> Zip Code </span>
+              </label>
+            </div>
+
+            <div class="form-name">
+              <input
+                type="text"
+                name="country"
+                autocomplete="off"
+                placeholder=""
+                id="country-input"
+                autocomplete="off"
+                required
+              />
+              <label for="country" class="label-name">
+                <span class="content-name"> Country </span>
+              </label>
+            </div>
+
+            <button class="btn-one">Submit</button>
           </div>
           <div class="map" id="gmp-map"></div>
         </div>
@@ -76,6 +132,9 @@
           "country",
           "postal_code",
         ];
+
+        let button = document.querySelector(".btn-one");
+        button.disabled = true; //setting button state to disabled
 
         // center: { lat: 40.714728, lng: -73.998672 }
         const center = new google.maps.LatLng(
@@ -158,9 +217,11 @@
               polygon
             )
           ) {
-            alert("The area contains the address");
+            console.log("The area contains the address");
+            button.disabled = false;
           } else {
-            alert("The address is outside of the area.");
+            console.log("The address is outside of the area.");
+            button.disabled = true;
           }
 
           renderAddress(place);
