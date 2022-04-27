@@ -757,10 +757,8 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   }
 }
 
-@import url('https://fonts.googleapis.com/css?family=Fira+Mono:400');
-
 .footer {
-  animation: glitch 1s linear infinite;
+  animation: glitch 3s linear infinite;
   display: flex;
   align-items: center;
   justify-content: center;
