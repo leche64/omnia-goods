@@ -169,6 +169,53 @@ br {
   margin-bottom: 0.5rem;
 }
 
+.form-birthday {
+  width: 100%;
+  position: relative;
+  height: 50px;
+  overflow: hidden;
+  color: white;
+}
+
+.form-birthday label {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.777);
+}
+
+.content-birthday {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: rgba(255, 255, 255, 0.777);
+  font-size: 12px;
+}
+
+.form-birthday label::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: -3px;
+  height: 100%;
+  width: 100%;
+  border-bottom: 3px solid rgba(75, 75, 75, 0.666);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.form-birthday input {
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.777);
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
 .form-name input {
   width: 100%;
   height: 100%;
@@ -272,19 +319,6 @@ br {
 /* -------NEW ABOVE---------- */
 /* ----------------- */
 /* ----------------- */
-
-.footer {
-  -position: fixed;
-  -left: 0;
-  -bottom: 0;
-  -position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  color: #fff;
-  border-radius: 30px;
-  background: rgba(0, 0, 0, 0.15);
-}
 
 .icons .fa-brands {
   -color: #f44336;
@@ -721,4 +755,78 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   to {
     opacity: 1;
   }
+}
+
+.footer {
+  animation: glitch 1s linear infinite;
+  color: #fff;
+  font-family: "Fira Mono", monospace;
+  margin-bottom: 1rem;
+  font-size: 0.7rem;
+}
+
+@keyframes glitch {
+  2%,
+  64% {
+    transform: translate(2px, 0) skew(0deg);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 0) skew(0deg);
+  }
+  62% {
+    transform: translate(0, 0) skew(5deg);
+  }
+}
+
+.footer:before,
+.footer:after {
+  content: attr(title);
+  position: absolute;
+  left: 0;
+}
+
+.footer:before {
+  animation: glitchTop 1s linear infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitchTop {
+  2%,
+  64% {
+    transform: translate(2px, -2px);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 2px);
+  }
+  62% {
+    transform: translate(13px, -1px) skew(-13deg);
+  }
+}
+
+.footer:after {
+  animation: glitchBotom 1.5s linear infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBotom {
+  2%,
+  64% {
+    transform: translate(-2px, 0);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 0);
+  }
+  62% {
+    transform: translate(-22px, 5px) skew(21deg);
+  }
+}
+
+.fa-heart {
+  color: red;
+  text-shadow: 0 0 3px rgb(255, 255, 255);
 }

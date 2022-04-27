@@ -30,6 +30,26 @@ const registerSchema = new mongoose.Schema(
       unique: true,
       dropDups: true,
     },
+    apt: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    zip: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    }
   },
   {
     timestamps: true,

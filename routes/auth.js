@@ -15,7 +15,6 @@ router.post(
   "/register",
   urlencodedParser,
   [
-    check("phonenumber", "Phone number error").isMobilePhone(),
     check("referralcode", "Refreal code must be 5 characters long").isLength({
       min: 5,
       max: 5,
@@ -30,12 +29,10 @@ router.post(
 
     if (!error.isEmpty()) {
       // TODO: send error message back with redirect
-      console.log(error.array());
-      // return res.status(422).json({
-      //   success: false,
-      //   errors: error.array(),
-      //   message: text,
-      // });
+      const msg = error.array();
+      res.render("register", {
+        msg: msg,
+      });
     } else {
       console.log("Form inputs verified");
 
@@ -46,9 +43,48 @@ router.post(
       req.session.referralCode = req.body.referralcode;
       req.session.firstName = req.body.firstname;
       req.session.lastName = req.body.lastname;
-      req.session.birthday = req.body.birthday;
       req.session.emailAddress = req.body.email;
-      // res.redirect("/api/user/verify");
+      req.session.birthday = req.body.birthday;
+
+      console.log(req.session.phoneNumber);
+      console.log(req.session.referralCode);
+      console.log(req.session.firstName);
+      console.log(req.session.lastName);
+      console.log(req.session.emailAddress);
+      console.log(req.session.birthday);
+
+      // save verified phone number to database
+      // check if phone number is in DB
+      if (req.session.phoneNumber != null) {
+        const existingPhoneNumber = await Register.findOne({
+          mobilePhoneNumber: req.session.phoneNumber,
+        }).exec();
+
+        if (!existingPhoneNumber) {
+          console.log(
+            "New Phone Number Found, Attempting to Save Verified User"
+          );
+          await saveVerifiedRegister(req);
+        } else {
+          console.log("Phone Number Already Saved: " + req.session.phoneNumber);
+        }
+
+        // create and sign jwt
+        const token = jwt.sign(
+          { _id: req.session.phoneNumber },
+          process.env.TOKEN_SECRET
+        );
+        console.log(token);
+        req.session.authToken = token;
+        res.header("auth-token", token).redirect("/api/shop");
+      } else {
+        console.log(
+          "req.session.phoneNumber not found: " + req.session.phoneNumber
+        );
+        res.redirect("/index");
+      }
+
+      res.redirect("/api/user/verify");
     }
   }
 );
@@ -131,34 +167,6 @@ router.post(
           if (result.status == "approved") {
             console.log("[SUCCESS] Code Verified: " + verifyCode);
             res.redirect("/api/user/register");
-            // save verified phone number to database
-            // check if phone number is in DB
-            // if (req.session.phoneNumber != null) {
-            //   const existingPhoneNumber = await Register.findOne({
-            //     mobilePhoneNumber: req.session.phoneNumber,
-            //   }).exec();
-
-            //   if (!existingPhoneNumber) {
-            //     console.log("New Phone Number Found, Attempting to Save Verified User");
-            //     await saveVerifiedRegister(req);
-            //   } else {
-            //     console.log("Login from existing register");
-            //   }
-
-            //   // create and sign jwt
-            //   const token = jwt.sign(
-            //     { _id: req.session.phoneNumber },
-            //     process.env.TOKEN_SECRET
-            //   );
-            //   console.log(token);
-            //   req.session.authToken = token;
-            //   res.header("auth-token", token).redirect("/api/shop");
-            // } else {
-            //   console.log(
-            //     "req.session.phoneNumber not found: " + req.session.phoneNumber
-            //   );
-            //   res.redirect("/index");
-            // }
           } else {
             console.log("[FAILURE] Verification Code Doesn't Match");
 
@@ -189,7 +197,11 @@ router.get("/verifyPhone", (req, res) => {
 });
 
 router.get("/register", function (req, res) {
-  res.render("register");
+  const msg =
+    "Your location and phone number have been successfully verified! Fill out the remaining information below and you're all done!";
+  res.render("register", {
+    msg: msg,
+  });
 });
 
 router.get("/verifyLocation", function (req, res) {
@@ -225,6 +237,13 @@ async function saveVerifiedRegister(req) {
     birthday: req.session.birthday,
     emailAddress: req.session.emailAddress,
   });
+
+  console.log(req.session.address);
+  console.log(req.session.apt);
+  console.log(req.session.city);
+  console.log(req.session.state);
+  console.log(req.session.zip);
+  console.log(req.session.country);
 
   const savedRegister = await register
     .save()

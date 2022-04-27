@@ -9,13 +9,18 @@
           <%- include('./partials/headerText.ejs') %>
         </div>
         <div class="body-container">
-            <form action="/api/user/register/" method="post">
-              <div class="form-name">
-                <input type="text" name="phonenumber" autocomplete="off" required />
-                <label for="phonenumber" class="label-name">
-                  <span class="content-name"> Phone Number </span>
-                </label>
+          <div class="info-banner-neutral">
+            <span class="info-banner-body">
+              <%= msg %>
+              <br />
+              <div class="info-banner-icon">
+                <i class="fa-brands fa-pagelines"></i>
+                <i class="fa-solid fa-signature"></i>
+                <i class="fa-solid fa-list"></i>
               </div>
+            </span>
+          </div>
+            <form action="/api/user/register/" method="post">
               <div class="form-name">
                 <input type="text" name="referralcode" autocomplete="off" required />
                 <label for="referralcode" class="label-name">
@@ -39,19 +44,19 @@
                 </label>
               </div>
               <div class="form-name">
-                <input type="text" name="birthday" autocomplete="off" required />
-                <label for="birthday" class="label-name">
-                  <span class="content-name"> Birthday </span>
-                </label>
-              </div>
-              <div class="form-name">
                 <input type="text" name="email" autocomplete="off" required />
                 <label for="email" class="label-name">
                   <span class="content-name"> Email </span>
                 </label>
               </div>
+              <div class="form-birthday">
+                <input type="date" id="birthday" name="birthday" required>
+                <label for="birthday"><span class="content-birthday"> Birthday </span></label>
+              </div>
                   <button type="submit" class="btn-one">Register</button>
             </form>
         </div>
+    </div>
+    <div class="footer">Made with <i class="fa-solid fa-heart"></i> By Doobies.eth</div>
   </body>
 </html>
