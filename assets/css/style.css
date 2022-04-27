@@ -757,12 +757,17 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   }
 }
 
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono:400');
+
 .footer {
   animation: glitch 1s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
-  font-family: "Fira Mono", monospace;
-  margin-bottom: 1rem;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
+  font-family: 'Fira Mono', monospace;
+  margin: 0.2rem;
 }
 
 @keyframes glitch {
@@ -781,9 +786,8 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
 
 .footer:before,
 .footer:after {
-  content: attr(title);
+  content: "Made With Love By Leche64";
   position: absolute;
-  left: 0;
 }
 
 .footer:before {
@@ -827,6 +831,6 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
 }
 
 .fa-heart {
-  color: red;
-  text-shadow: 0 0 3px rgb(255, 255, 255);
+  color: rgb(212, 0, 0);
+  text-shadow: 0 0 4px rgb(255, 255, 255);
 }
