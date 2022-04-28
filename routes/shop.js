@@ -20,7 +20,7 @@ router.get("/confirm", (req, res) => {
 });
 
 router.get("/dev", (req, res) => {
-  res.render("shop");
+  res.render("cart");
 });
 
 router.get("/order", (req, res) => {
