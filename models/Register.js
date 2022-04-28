@@ -30,6 +30,10 @@ const registerSchema = new mongoose.Schema(
       unique: true,
       dropDups: true,
     },
+    streetAddress: {
+      type: String,
+      required: true,
+    },
     apt: {
       type: String,
       required: true,

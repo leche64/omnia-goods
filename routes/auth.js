@@ -15,13 +15,21 @@ router.post(
   "/register",
   urlencodedParser,
   [
-    check("referralcode", "Refreal code must be 5 characters long").isLength({
+    check("referralcode", "Referral code must be 5 characters long").isLength({
       min: 5,
       max: 5,
     }),
-    check("firstname", "First name error").isLength({ min: 1, max: 100 }),
-    check("lastname", "Last name error").isLength({ min: 1, max: 100 }),
-    check("email", "Email is not valid").isEmail().normalizeEmail(),
+    check("firstname", "First name validation failed").isLength({
+      min: 1,
+      max: 100,
+    }),
+    check("lastname", "Last name validation failed").isLength({
+      min: 1,
+      max: 100,
+    }),
+    check("email", "Email is not valid, Please Try Again")
+      .isEmail()
+      .normalizeEmail(),
   ],
   async (req, res) => {
     const error = validationResult(req);
@@ -29,32 +37,24 @@ router.post(
 
     if (!error.isEmpty()) {
       // TODO: send error message back with redirect
-      const msg = error.array();
+      const msg = error["errors"][0]["msg"];
+
       res.render("register", {
         msg: msg,
       });
     } else {
       console.log("Form inputs verified");
 
-      sendVerifyCode(req.body.phonenumber);
-
       console.log("Setting Session Variables");
-      req.session.phoneNumber = req.body.phonenumber;
       req.session.referralCode = req.body.referralcode;
       req.session.firstName = req.body.firstname;
       req.session.lastName = req.body.lastname;
       req.session.emailAddress = req.body.email;
       req.session.birthday = req.body.birthday;
 
-      console.log(req.session.phoneNumber);
-      console.log(req.session.referralCode);
-      console.log(req.session.firstName);
-      console.log(req.session.lastName);
-      console.log(req.session.emailAddress);
-      console.log(req.session.birthday);
-
       // save verified phone number to database
       // check if phone number is in DB
+      // TODO: update to check if referral code exist instead, if yes account fully verified
       if (req.session.phoneNumber != null) {
         const existingPhoneNumber = await Register.findOne({
           mobilePhoneNumber: req.session.phoneNumber,
@@ -83,8 +83,6 @@ router.post(
         );
         res.redirect("/index");
       }
-
-      res.redirect("/api/user/verify");
     }
   }
 );
@@ -127,7 +125,7 @@ router.post(
         console.log("SENDING TWILIO VERIFCATION");
         sendVerifyCode(phoneNumberTrim, res);
         req.session.phoneNumber = phoneNumberTrim;
-        res.redirect("/api/user/verify");
+        res.redirect("/api/user/verifyPhone");
       }
     }
   }
@@ -166,7 +164,32 @@ router.post(
         .then(async (result) => {
           if (result.status == "approved") {
             console.log("[SUCCESS] Code Verified: " + verifyCode);
-            res.redirect("/api/user/register");
+            // check if new number or registered number
+            if (req.session.phoneNumber != null) {
+              const existingPhoneNumber = await Register.findOne({
+                mobilePhoneNumber: req.session.phoneNumber,
+              }).exec();
+
+              if (!existingPhoneNumber) {
+                console.log(
+                  "New Phone Number Found, Must Get Registration Details"
+                );
+                res.redirect("/api/user/register");
+              } else {
+                console.log(
+                  "Phone Number Already Verified and Saved - Continue to Shop: " +
+                    req.session.phoneNumber
+                );
+                // create and sign jwt
+                const token = jwt.sign(
+                  { _id: req.session.phoneNumber },
+                  process.env.TOKEN_SECRET
+                );
+                console.log(token);
+                req.session.authToken = token;
+                res.header("auth-token", token).redirect("/api/shop");
+              }
+            }
           } else {
             console.log("[FAILURE] Verification Code Doesn't Match");
 
@@ -236,6 +259,12 @@ async function saveVerifiedRegister(req) {
     lastName: req.session.lastName,
     birthday: req.session.birthday,
     emailAddress: req.session.emailAddress,
+    streetAddress: req.session.address,
+    apt: req.session.apt,
+    city: req.session.city,
+    state: req.session.state,
+    zip: req.session.zip,
+    country: req.session.country,
   });
 
   console.log(req.session.address);
@@ -248,10 +277,10 @@ async function saveVerifiedRegister(req) {
   const savedRegister = await register
     .save()
     .then((result) => {
-      console.log("SUCCESS inserting register entry");
+      console.log("SUCCESS inserting register entry:" + result);
     })
     .catch((err) => {
-      console.log("FAILURE inserting register entry" + err);
+      console.log("FAILURE inserting register entry:" + err);
     });
 }
 

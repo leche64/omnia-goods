@@ -118,10 +118,6 @@ mongoose
       weather.fetchGeoLocation("New York City");
     });
 
-    app.get("/error", (req, res) => {
-      throw new Error("Sorry we're Stoned");
-    });
-
     app.use(function (req, res) {
       res.render("404");
     });
