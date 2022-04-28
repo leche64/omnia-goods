@@ -8,8 +8,15 @@
       <div class="header-container">
         <%- include('./partials/headerText.ejs') %>
       </div>
+      <div class="info-container">
+        <h3>
+          Your location and phone number have been successfully verified! Fill
+          out the remaining information below and you're all set to shop our
+          products!
+        </h3>
+      </div>
       <div class="body-container">
-        <div class="info-banner-neutral">
+        <!-- <div class="info-banner-neutral">
           <span class="info-banner-body">
             <%= msg %>
             <br />
@@ -19,45 +26,47 @@
               <i class="fa-solid fa-list"></i>
             </div>
           </span>
+        </div> -->
+        <div class="register-form">
+          <form action="/api/user/register/" method="post">
+            <div class="form-name">
+              <input
+                type="text"
+                name="referralcode"
+                autocomplete="off"
+                required
+              />
+              <label for="referralcode" class="label-name">
+                <span class="content-name"> Referral Code </span>
+              </label>
+            </div>
+            <div class="form-name">
+              <input type="text" name="firstname" autocomplete="off" required />
+              <label for="firstname" class="label-name">
+                <span class="content-name"> First Name </span>
+              </label>
+            </div>
+            <div class="form-name">
+              <input type="text" name="lastname" autocomplete="off" required />
+              <label for="lastname" class="label-name">
+                <span class="content-name"> Last Name </span>
+              </label>
+            </div>
+            <div class="form-name">
+              <input type="text" name="email" autocomplete="off" required />
+              <label for="email" class="label-name">
+                <span class="content-name"> Email </span>
+              </label>
+            </div>
+            <div class="form-birthday">
+              <input type="date" id="birthday" name="birthday" required />
+              <label for="birthday"
+                ><span class="content-birthday"> Birthday </span></label
+              >
+            </div>
+            <button class="btn-one">Register</button>
+          </form>
         </div>
-        <form action="/api/user/register/" method="post">
-          <div class="form-name">
-            <input
-              type="text"
-              name="referralcode"
-              autocomplete="off"
-              required
-            />
-            <label for="referralcode" class="label-name">
-              <span class="content-name"> Referral Code </span>
-            </label>
-          </div>
-          <div class="form-name">
-            <input type="text" name="firstname" autocomplete="off" required />
-            <label for="firstname" class="label-name">
-              <span class="content-name"> First Name </span>
-            </label>
-          </div>
-          <div class="form-name">
-            <input type="text" name="lastname" autocomplete="off" required />
-            <label for="lastname" class="label-name">
-              <span class="content-name"> Last Name </span>
-            </label>
-          </div>
-          <div class="form-name">
-            <input type="text" name="email" autocomplete="off" required />
-            <label for="email" class="label-name">
-              <span class="content-name"> Email </span>
-            </label>
-          </div>
-          <div class="form-birthday">
-            <input type="date" id="birthday" name="birthday" required />
-            <label for="birthday"
-              ><span class="content-birthday"> Birthday </span></label
-            >
-          </div>
-          <button type="submit" class="btn-one">Register</button>
-        </form>
       </div>
     </div>
     <%- include('./partials/footer.ejs') %>

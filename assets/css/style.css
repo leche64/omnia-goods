@@ -135,9 +135,13 @@ br {
 }
 
 .image-container img {
-  width : 75%;
+  width: 75%;
   border-radius: 4px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.699));
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.65),
+    rgba(0, 0, 0, 0.699)
+  );
 }
 
 .form-container {
@@ -309,19 +313,6 @@ br {
   transform: scale(0.97);
 }
 
-.icons-weed {
-  text-align: center;
-  color: #fff;
-  font-family: "Enriqueta", serif;
-}
-
-.icons-weed .fa-solid {
-  color: #ffffff;
-  margin: 0.3rem;
-  cursor: pointer;
-  padding: 5px 0;
-}
-
 /* -------NEW ABOVE---------- */
 /* ----------------- */
 /* ----------------- */
@@ -342,6 +333,8 @@ br {
 .icons-weed {
   text-align: center;
   font-size: 14px;
+  font-family: "Enriqueta", serif;
+  color: #ffffff;
 }
 
 .icons-weed .fa-solid {
@@ -357,8 +350,12 @@ br {
   margin: 0.3rem;
 }
 
+.card img {
+  width: 100%;
+}
+
 .card {
-  background-color: rgba(0, 70, 21, 0.797);
+  background-color: rgba(0, 70, 21, 0.565);
   padding: 0.7rem;
   -margin: 0 auto;
   margin: 0.1rem;
@@ -615,6 +612,16 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   border-radius: 3px;
 }
 
+.register-form {
+  background: rgba(255, 255, 255, 0.529);
+  padding: 20px;
+  margin: 0.1rem;
+  border-radius: 3px;
+  display: inline-block;
+  width: 100%;
+  width: 75%;
+}
+
 .half-input-container {
   display: flex;
   justify-content: space-between;
@@ -770,7 +777,7 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   justify-content: center;
   color: #fff;
   font-size: 0.6rem;
-  font-family: 'Fira Mono', monospace;
+  font-family: "Fira Mono", monospace;
   margin: 0.2rem;
 }
 

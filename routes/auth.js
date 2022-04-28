@@ -285,7 +285,7 @@ async function saveVerifiedRegister(req) {
 }
 
 function sendVerifyCode(mobileNumber) {
-  console.log("Attempting to sending twilio verification");
+  console.log("Attempting to sending twilio verification:" + mobileNumber);
   const mobileNumberFinal = "+1" + mobileNumber;
   twilioClient.verify
     .services(process.env.TWILIO_SERVICE_SSID)

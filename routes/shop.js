@@ -23,6 +23,10 @@ router.get("/dev", (req, res) => {
   res.render("shop");
 });
 
+router.get("/order", (req, res) => {
+  res.render("statusPendingDelivery");
+});
+
 //TODO verify jwt
 router.post("/order", async (req, res) => {
   console.log(req.body.card);
@@ -67,7 +71,7 @@ router.post("/order", async (req, res) => {
   console.log(edibleText);
   console.log(vapeText);
 
-  res.redirect("/api/shop/confirm");
+  res.redirect("/api/shop/order");
 
   const messageBody =
     "\n\n Your order from Omnia Goods has been recieved. Our courier will deliver the products to you later today. \n\n" +
