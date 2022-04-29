@@ -128,16 +128,14 @@
                 <div class="product-card-body">
                   <div class="img-box">
                     <img
-                      src="./images/green-tomatoes.jpg"
-                      alt="Green tomatoes"
+                      src="/images/weednug2.png"
                       width="80px"
                       class="product-img"
                     />
                   </div>
 
                   <div class="detail">
-                    <h4 class="product-name">Green Tomatoes 1 Kilo</h4>
-
+                    <h4 class="product-name"> <%= flower.description %> - <%= flower.weight %></h4>
                     <div class="wrapper">
                       <div class="product-qty">
                         <button id="decrement">
@@ -151,7 +149,7 @@
                         </button>
                       </div>
 
-                      <div class="price">$ <span id="price">1.25</span></div>
+                      <div class="price">$ <span id="price"><%= flower.price %></span></div>
                     </div>
                   </div>
                 </div>
@@ -161,7 +159,7 @@
                 <div class="product-card-body">
                   <div class="img-box">
                     <img
-                      src="./images/cabbage.jpg"
+                      src="/images/weedcookie.png"
                       alt="Cabbage"
                       width="80px"
                       class="product-img"
@@ -169,7 +167,7 @@
                   </div>
 
                   <div class="detail">
-                    <h4 class="product-name">Cabbage 1 Pcs</h4>
+                    <h4 class="product-name"><%= edible.description %> - <%= edible.weight %></h4>
 
                     <div class="wrapper">
                       <div class="product-qty">
@@ -184,9 +182,46 @@
                         </button>
                       </div>
 
-                      <div class="price">$ <span id="price">0.80</span></div>
+                      <div class="price">$ <span id="price"><%= edible.price %></span></div>
                     </div>
                   </div>
+
+                  
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-card-body">
+                  <div class="img-box">
+                    <img
+                      src="/images/weedcookie.png"
+                      alt="Cabbage"
+                      width="80px"
+                      class="product-img"
+                    />
+                  </div>
+
+                  <div class="detail">
+                    <h4 class="product-name"><%= vape.description %> - <%= vape.weight %></h4>
+
+                    <div class="wrapper">
+                      <div class="product-qty">
+                        <button id="decrement">
+                          <ion-icon name="remove-outline"></ion-icon>
+                        </button>
+
+                        <span id="quantity">1</span>
+
+                        <button id="increment">
+                          <ion-icon name="add-outline"></ion-icon>
+                        </button>
+                      </div>
+
+                      <div class="price">$ <span id="price"><%= vape.price %></span></div>
+                    </div>
+                  </div>
+
+                  
                 </div>
               </div>
             </div>
@@ -210,21 +245,21 @@
               <div class="amount">
                 <div class="subtotal">
                   <span>Subtotal</span>
-                  <span>$ <span id="subtotal">2.05</span></span>
+                  <span>$ <span id="subtotal"><%=subTotal%></span></span>
                 </div>
 
                 <div class="tax">
-                  <span>Tax</span> <span>$ <span id="tax">0.10</span></span>
+                  <span>Tax</span> <span>$ <span id="tax"><%=taxTotal%></span></span>
                 </div>
 
                 <div class="shipping">
-                  <span>Shipping</span>
-                  <span>$ <span id="shipping">0.00</span></span>
+                  <span>Delivery Fee</span>
+                  <span>$ <span id="delivery"><%=deliveryTotal%></span></span>
                 </div>
 
                 <div class="total">
                   <span>Total</span>
-                  <span>$ <span id="total">2.15</span></span>
+                  <span>$ <span id="total"><%=orderTotal%></span></span>
                 </div>
               </div>
             </div>
@@ -233,6 +268,84 @@
       </div>
     </div>
     <%- include('./partials/footer.ejs') %>
+    <script>
+      "use strict";
+
+      // all initial elements
+      const payAmountBtn = document.querySelector("#payAmount");
+      const decrementBtn = document.querySelectorAll("#decrement");
+      const quantityElem = document.querySelectorAll("#quantity");
+      const incrementBtn = document.querySelectorAll("#increment");
+      const priceElem = document.querySelectorAll("#price");
+      const subtotalElem = document.querySelector("#subtotal");
+      const taxElem = document.querySelector("#tax");
+      const totalElem = document.querySelector("#total");
+
+      // loop: for add event on multiple `increment` & `decrement` button
+      for (let i = 0; i < incrementBtn.length; i++) {
+        incrementBtn[i].addEventListener("click", function () {
+          // collect the value of `quantity` textContent,
+          // based on clicked `increment` button sibling.
+          let increment = Number(this.previousElementSibling.textContent);
+
+          // plus `increment` variable value by 1
+          increment++;
+
+          // show the `increment` variable value on `quantity` element
+          // based on clicked `increment` button sibling.
+          this.previousElementSibling.textContent = increment;
+
+          totalCalc();
+        });
+
+        decrementBtn[i].addEventListener("click", function () {
+          // collect the value of `quantity` textContent,
+          // based on clicked `decrement` button sibling.
+          let decrement = Number(this.nextElementSibling.textContent);
+
+          // minus `decrement` variable value by 1 based on condition
+          decrement <= 1 ? 1 : decrement--;
+
+          // show the `decrement` variable value on `quantity` element
+          // based on clicked `decrement` button sibling.
+          this.nextElementSibling.textContent = decrement;
+
+          totalCalc();
+        });
+      }
+
+      // function: for calculating total amount of product price
+      const totalCalc = function () {
+        // declare all initial variable
+        const tax = 0.05;
+        let subtotal = 0;
+        let totalTax = 0;
+        let total = 0;
+
+        // loop: for calculating `subtotal` value from every single product
+        for (let i = 0; i < quantityElem.length; i++) {
+          subtotal +=
+            Number(quantityElem[i].textContent) *
+            Number(priceElem[i].textContent);
+        }
+
+        // show the `subtotal` variable value on `subtotalElem` element
+        subtotalElem.textContent = subtotal.toFixed(2);
+
+        // calculating the `totalTax`
+        totalTax = subtotal * tax;
+
+        // show the `totalTax` on `taxElem` element
+        taxElem.textContent = totalTax.toFixed(2);
+
+        // calcualting the `total`
+        total = subtotal + totalTax;
+
+        // show the `total` variable value on `totalElem` & `payAmountBtn` element
+        totalElem.textContent = total.toFixed(2);
+        payAmountBtn.textContent = total.toFixed(2);
+      };
+    </script>
     <script
       type="module"
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"

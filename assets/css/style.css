@@ -396,12 +396,12 @@ br {
 }
 
 .card img {
-  width: 100%;
+  width: 45px;
 }
 
 .card {
   background-color: rgba(0, 70, 21, 0.565);
-  padding: 0.7rem;
+  padding: 1rem;
   -margin: 0 auto;
   margin: 0.1rem;
   /* display: flex; */
