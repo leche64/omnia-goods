@@ -113,7 +113,7 @@
             </div>
 
             <button class="btn btn-primary">
-              <b>Pay</b>$<span id="payAmount">2.15</span>
+              <b>Pay</b>$<span id="payAmount"><%=orderTotal%></span>
             </button>
           </section>
 
@@ -128,12 +128,11 @@
                 <div class="product-card-body">
                   <div class="img-box">
                     <img
-                      src="/images/weednug2.png"
+                      src="<%= order[i].img %>"
                       width="80px"
                       class="product-img"
                     />
                   </div>
-
                   <div class="detail">
                     <h4 class="product-name"> <%= order[i].description %> - <%= order[i].weight %></h4>
                     <div class="wrapper">

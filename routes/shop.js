@@ -36,24 +36,29 @@ router.post("/order", async (req, res) => {
   var flowerDescription = null;
   var flowerPrice = null;
   var flowerWeight = null;
+  var flowerImg = null;
 
   if (req.body.card != null) {
     if (req.body.card == "card_one") {
       flowerDescription = "Ronin";
       flowerPrice = "60.00";
       flowerWeight = "3.5 grams";
+      flowerImg = "/images/weednug1.png";
     } else if (req.body.card == "card_two") {
       flowerDescription = "Daimyos";
       flowerPrice = "110.00";
       flowerWeight = "7 grams";
+      flowerImg = "/images/weednug2.png";
     } else if (req.body.card == "card_three") {
       flowerDescription = "Samurai";
       flowerPrice = "200.00";
       flowerWeight = "14 grams";
+      flowerImg = "/images/weednug3.png";
     } else if (req.body.card == "card_four") {
       flowerDescription = "Shogun";
-      flowerPrice = "360";
+      flowerPrice = "360.00";
       flowerWeight = "28 grams";
+      flowerImg = "/images/weednug4.png";
     }
   }
 
@@ -61,6 +66,7 @@ router.post("/order", async (req, res) => {
     description: flowerDescription,
     price: flowerPrice,
     weight: flowerWeight,
+    img: flowerImg,
   };
   console.log(flowerOrder);
 
@@ -68,15 +74,18 @@ router.post("/order", async (req, res) => {
     var edibleDescription = null;
     var ediblePrice = null;
     var edibleWeight = null;
+    var edibleImg = null;
 
     if (req.body.edible == "edible_one") {
       edibleDescription = "Choc Blaze Bar";
       ediblePrice = "20.00";
       edibleWeight = "150 mg";
+      edibleImg = "/images/weedcookie.png";
     } else if (req.body.edible == "edible_two") {
       edibleDescription = "Choc Blaze Bar";
       ediblePrice = "60.00";
       edibleWeight = "500 mg";
+      edibleImg = "/images/weedgummy.png";
     }
   }
 
@@ -84,6 +93,7 @@ router.post("/order", async (req, res) => {
     description: edibleDescription,
     price: ediblePrice,
     weight: edibleWeight,
+    img: edibleImg,
   };
   console.log(edibleOrder);
 
@@ -91,48 +101,67 @@ router.post("/order", async (req, res) => {
     var vapeDescription = null;
     var vapePrice = null;
     var vapeWeight = null;
+    var vapeImg = null;
 
     if (req.body.vape == "vape_one") {
-      vapeText = "Pre-Roll";
+      vapeDescription = "Pre-Roll";
       vapePrice = "20.00";
       vapeWeight = "1 g";
+      vapeImg = "/images/weedjoint.png";
+
     } else if (req.body.vape == "vape_two") {
-      vapeText = "Doobies Pack (5)";
+      vapeDescription = "Doobies Pack (5)";
       vapePrice = "50.00";
       vapeWeight = "3.5 g";
+      vapeImg = "/images/weedjoints.png";
+      
     } else if (req.body.vape == "vape_three") {
-      vapeText = "Vape Cart Pack";
+      vapeDescription = "Vape Cart Pack";
       vapePrice = "60.00";
       vapeWeight = "1 g";
+      vapeImg = "/images/weedvape.png";
     }
   }
 
   const vapeOrder = {
-    description: vapeText,
+    description: vapeDescription,
     price: vapePrice,
     weight: vapeWeight,
+    img: vapeImg
   };
 
-  console.log(vapeOrder);
+  var orderlist = [];
 
-  const orderTotal = parseInt(flowerOrder.price) + parseInt(edibleOrder.price) + parseInt(vapeOrder.price);
+  if (flowerOrder.price != null) {
+    orderlist.push(flowerOrder);
+  }
+
+  if (edibleOrder.price != null) {
+    orderlist.push(edibleOrder);
+  }
+
+  if (vapeOrder.price != null) {
+    orderlist.push(vapeOrder);
+  }
+  var orderTotal = 0;
+
+  for (var i = 0; i < orderlist.length; i++) {
+    if (orderlist[i].price != null) {
+      orderTotal += parseFloat(orderlist[i].price);
+    }
+  }
 
   const tax = 0.05;
   const deliveryFee = 10;
 
   const totalTax = orderTotal * tax;
 
-  var orderlist = [];
-  orderlist.push(flowerOrder);
-  orderlist.push(edibleOrder);
-  orderlist.push(vapeOrder);
-
   res.render("cart", {
     order: orderlist,
     subTotal: orderTotal.toFixed(2),
     taxTotal: parseFloat(totalTax).toFixed(2),
     deliveryTotal: deliveryFee.toFixed(2),
-    orderTotal: parseFloat(orderTotal + totalTax + deliveryFee).toFixed(2)
+    orderTotal: parseFloat(orderTotal + totalTax + deliveryFee).toFixed(2),
   });
 
   // const messageBody =
