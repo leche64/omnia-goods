@@ -77,12 +77,12 @@ router.post("/order", async (req, res) => {
     var edibleImg = null;
 
     if (req.body.edible == "edible_one") {
-      edibleDescription = "Choc Blaze Bar";
+      edibleDescription = "Blazing Cookies Bar";
       ediblePrice = "20.00";
       edibleWeight = "150 mg";
       edibleImg = "/images/weedcookie.png";
     } else if (req.body.edible == "edible_two") {
-      edibleDescription = "Choc Blaze Bar";
+      edibleDescription = "Gummy Snack Pack";
       ediblePrice = "60.00";
       edibleWeight = "500 mg";
       edibleImg = "/images/weedgummy.png";
