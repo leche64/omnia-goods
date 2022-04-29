@@ -122,10 +122,13 @@ router.post("/order", async (req, res) => {
 
   const totalTax = orderTotal * tax;
 
+  var orderlist = [];
+  orderlist.push(flowerOrder);
+  orderlist.push(edibleOrder);
+  orderlist.push(vapeOrder);
+
   res.render("cart", {
-    flower: flowerOrder,
-    edible: edibleOrder,
-    vape: vapeOrder,
+    order: orderlist,
     subTotal: orderTotal.toFixed(2),
     taxTotal: parseFloat(totalTax).toFixed(2),
     deliveryTotal: deliveryFee.toFixed(2),

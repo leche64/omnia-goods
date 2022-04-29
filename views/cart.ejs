@@ -123,7 +123,7 @@
           <section class="cart">
             <div class="cart-item-box">
               <h2 class="section-heading">Order Summary</h2>
-
+              <% for (var i = 0; i < order.length; i++) { %>
               <div class="product-card">
                 <div class="product-card-body">
                   <div class="img-box">
@@ -135,7 +135,7 @@
                   </div>
 
                   <div class="detail">
-                    <h4 class="product-name"> <%= flower.description %> - <%= flower.weight %></h4>
+                    <h4 class="product-name"> <%= order[i].description %> - <%= order[i].weight %></h4>
                     <div class="wrapper">
                       <div class="product-qty">
                         <button id="decrement">
@@ -149,81 +149,12 @@
                         </button>
                       </div>
 
-                      <div class="price">$ <span id="price"><%= flower.price %></span></div>
+                      <div class="price">$ <span id="price"><%= order[i].price %></span></div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div class="product-card">
-                <div class="product-card-body">
-                  <div class="img-box">
-                    <img
-                      src="/images/weedcookie.png"
-                      alt="Cabbage"
-                      width="80px"
-                      class="product-img"
-                    />
-                  </div>
-
-                  <div class="detail">
-                    <h4 class="product-name"><%= edible.description %> - <%= edible.weight %></h4>
-
-                    <div class="wrapper">
-                      <div class="product-qty">
-                        <button id="decrement">
-                          <ion-icon name="remove-outline"></ion-icon>
-                        </button>
-
-                        <span id="quantity">1</span>
-
-                        <button id="increment">
-                          <ion-icon name="add-outline"></ion-icon>
-                        </button>
-                      </div>
-
-                      <div class="price">$ <span id="price"><%= edible.price %></span></div>
-                    </div>
-                  </div>
-
-                  
-                </div>
-              </div>
-
-              <div class="product-card">
-                <div class="product-card-body">
-                  <div class="img-box">
-                    <img
-                      src="/images/weedcookie.png"
-                      alt="Cabbage"
-                      width="80px"
-                      class="product-img"
-                    />
-                  </div>
-
-                  <div class="detail">
-                    <h4 class="product-name"><%= vape.description %> - <%= vape.weight %></h4>
-
-                    <div class="wrapper">
-                      <div class="product-qty">
-                        <button id="decrement">
-                          <ion-icon name="remove-outline"></ion-icon>
-                        </button>
-
-                        <span id="quantity">1</span>
-
-                        <button id="increment">
-                          <ion-icon name="add-outline"></ion-icon>
-                        </button>
-                      </div>
-
-                      <div class="price">$ <span id="price"><%= vape.price %></span></div>
-                    </div>
-                  </div>
-
-                  
-                </div>
-              </div>
+              <% } %>
             </div>
 
             <div class="wrapper">
