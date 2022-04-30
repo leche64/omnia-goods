@@ -38,7 +38,8 @@ mongoose
     // import routes
     const authRoute = require("./routes/auth");
     const shopRoute = require("./routes/shop");
-
+    const paymentRoute = require("./routes/payment");
+    
     app.set("views", path.join(__dirname, "views"));
 
     // regiester view engine - handlebars/pug/ejs
@@ -52,6 +53,7 @@ mongoose
 
     app.use("/api/user", authRoute);
     app.use("/api/shop", shopRoute);
+    app.use("/api/payment", paymentRoute);
 
     app.get("/", (req, res) => {
       //var data = fs.readFileSync(__dirname + "/views/index.ejs", "utf8");

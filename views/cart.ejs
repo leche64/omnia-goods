@@ -18,103 +18,13 @@
              - checkout section
             -->
           <section class="checkout">
-            <h2 class="section-heading">Payment Details</h2>
-
-            <div class="payment-form">
-              <div class="payment-method">
-                <button class="method selected">
-                  <ion-icon name="card"></ion-icon>
-
-                  <span>Credit Card</span>
-
-                  <ion-icon
-                    class="checkmark fill"
-                    name="checkmark-circle"
-                  ></ion-icon>
-                </button>
-
-                <button class="method">
-                  <ion-icon name="logo-apple"></ion-icon>
-
-                  <span>Apple Pay</span>
-
-                  <ion-icon
-                    class="checkmark"
-                    name="checkmark-circle-outline"
-                  ></ion-icon>
-                </button>
-              </div>
-
-              <form action="#">
-                <div class="cardholder-name">
-                  <label for="cardholder-name" class="label-default"
-                    >Cardholder name</label
-                  >
-                  <input
-                    type="text"
-                    name="cardholder-name"
-                    id="cardholder-name"
-                    class="input-default"
-                  />
-                </div>
-
-                <div class="card-number">
-                  <label for="card-number" class="label-default"
-                    >Card number</label
-                  >
-                  <input
-                    type="number"
-                    name="card-number"
-                    id="card-number"
-                    class="input-default"
-                  />
-                </div>
-
-                <div class="input-flex">
-                  <div class="expire-date">
-                    <label for="expire-date" class="label-default"
-                      >Expiration date</label
-                    >
-
-                    <div class="input-flex">
-                      <input
-                        type="number"
-                        name="day"
-                        id="expire-date"
-                        placeholder="31"
-                        min="1"
-                        max="31"
-                        class="input-default"
-                      />
-                      /
-                      <input
-                        type="number"
-                        name="month"
-                        id="expire-date"
-                        placeholder="12"
-                        min="1"
-                        max="12"
-                        class="input-default"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="cvv">
-                    <label for="cvv" class="label-default">CVV</label>
-                    <input
-                      type="number"
-                      name="cvv"
-                      id="cvv"
-                      class="input-default"
-                    />
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            <button class="btn btn-primary">
-              <b>Pay</b>$<span id="payAmount"><%=orderTotal%></span>
-            </button>
+            <form id="payment-form">
+              <div class="credit-card-container"></div>
+              <button id="card-button" type="button">
+                Pay $<%=orderTotal%>
+              </button>
+            </form>
+            <div id="payment-status-container"></div>
           </section>
 
           <!--
@@ -134,7 +44,9 @@
                     />
                   </div>
                   <div class="detail">
-                    <h4 class="product-name"> <%= order[i].description %> - <%= order[i].weight %></h4>
+                    <h4 class="product-name">
+                      <%= order[i].description %> - <%= order[i].weight %>
+                    </h4>
                     <div class="wrapper">
                       <div class="product-qty">
                         <button id="decrement">
@@ -148,7 +60,9 @@
                         </button>
                       </div>
 
-                      <div class="price">$ <span id="price"><%= order[i].price %></span></div>
+                      <div class="price">
+                        $ <span id="price"><%= order[i].price %></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -179,7 +93,8 @@
                 </div>
 
                 <div class="tax">
-                  <span>Tax</span> <span>$ <span id="tax"><%=taxTotal%></span></span>
+                  <span>Tax</span>
+                  <span>$ <span id="tax"><%=taxTotal%></span></span>
                 </div>
 
                 <div class="shipping">
@@ -284,5 +199,117 @@
       nomodule
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
+    <script>
+      const appId = "sandbox-sq0idb-sdwrq47LG9rKHbeuAmrYag";
+      const locationId = "L0RR6WRKX4EMD";
+
+      async function initializeCard(payments) {
+        const card = await payments.card();
+        await card.attach(".credit-card-container");
+        return card;
+      }
+
+      const totalSpan = document.getElementById("total");
+      const orderTotal = totalSpan.textContent;
+
+      // Call this function to send a payment token, buyer name, and other details
+      // to the project server code so that a payment can be created with
+      // Payments API
+      async function createPayment(token) {
+        const body = JSON.stringify({
+          locationId,
+          sourceId: token,
+          totalAmount: orderTotal,
+        });
+        const paymentResponse = await fetch("/api/payment/createPayment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        });
+        if (paymentResponse.ok) {
+          return paymentResponse.json();
+        }
+        const errorBody = await paymentResponse.text();
+        throw new Error(errorBody);
+      }
+
+      // This function tokenizes a payment method.
+      // The ‘error’ thrown from this async function denotes a failed tokenization,
+      // which is due to buyer error (such as an expired card). It is up to the
+      // developer to handle the error and provide the buyer the chance to fix
+      // their mistakes.
+      async function tokenize(paymentMethod) {
+        const tokenResult = await paymentMethod.tokenize();
+        if (tokenResult.status === "OK") {
+          return tokenResult.token;
+        } else {
+          let errorMessage = `Tokenization failed-status: ${tokenResult.status}`;
+          if (tokenResult.errors) {
+            errorMessage += ` and errors: ${JSON.stringify(
+              tokenResult.errors
+            )}`;
+          }
+          throw new Error(errorMessage);
+        }
+      }
+
+      // Helper method for displaying the Payment Status on the screen.
+      // status is either SUCCESS or FAILURE;
+      function displayPaymentResults(status) {
+        const statusContainer = document.getElementById(
+          "payment-status-container"
+        );
+        if (status === "SUCCESS") {
+          statusContainer.classList.remove("is-failure");
+          statusContainer.classList.add("is-success");
+        } else {
+          statusContainer.classList.remove("is-success");
+          statusContainer.classList.add("is-failure");
+        }
+        statusContainer.style.visibility = "visible";
+      }
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        if (!window.Square) {
+          throw new Error("Square.js failed to load properly");
+        }
+        const payments = window.Square.payments(appId, locationId);
+        let card;
+        try {
+          card = await initializeCard(payments);
+        } catch (e) {
+          console.error("Initializing Card failed", e);
+          return;
+        }
+
+        // Step 5.2: create card payment
+        async function handlePaymentMethodSubmission(event, paymentMethod) {
+          event.preventDefault();
+
+          try {
+            // disable the submit button as we await tokenization and make a
+            // payment request.
+            cardButton.disabled = true;
+            const token = await tokenize(paymentMethod);
+            const paymentResults = await createPayment(token);
+            displayPaymentResults("SUCCESS");
+
+            console.debug("Payment Success", paymentResults);
+          } catch (e) {
+            cardButton.disabled = false;
+            displayPaymentResults("FAILURE");
+            cancelAnimationFrame;
+            console.error(e.message);
+          }
+        }
+
+        const cardButton = document.getElementById("card-button");
+        cardButton.addEventListener("click", async function (event) {
+          await handlePaymentMethodSubmission(event, card);
+        });
+      });
+    </script>
   </body>
 </html>
