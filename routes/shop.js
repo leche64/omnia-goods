@@ -9,21 +9,11 @@ const twilioClient = require("twilio")(accountSid, authToken);
 
 //TODO verify jwt
 router.get("/", (req, res) => {
+  console.log('yoyoyoy');
   res.render("shop");
 });
 
-//TODO verify jwt
-router.get("/confirm", (req, res) => {
-  //res.render("statusPendingDelivery");
-  //res.render("statusOutForDelivery");
-  res.render("statusDelivered");
-});
-
 router.get("/dev", (req, res) => {
-  res.render("cart");
-});
-
-router.get("/order", (req, res) => {
   res.render("statusPendingDelivery");
 });
 
@@ -155,6 +145,8 @@ router.post("/order", async (req, res) => {
   const deliveryFee = 10;
 
   const totalTax = orderTotal * tax;
+
+  req.session.order = orderlist;
 
   res.render("cart", {
     order: orderlist,

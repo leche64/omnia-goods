@@ -9,28 +9,31 @@
         <%- include('./partials/headerText.ejs') %>
       </div>
       <div class="body-container">
+        <div class="order-detail">
+          <h1>Order Details</h1>
+        </div>
         <div class="stepper-wrapper">
           <div class="stepper-item completed">
             <div class="step-counter">
-              <i class="fa-solid fa-check"></i>
+              <i class="fa-solid fa-file-circle-check"></i>
             </div>
             <div class="step-name">Order Received</div>
           </div>
-          <div class="stepper-item completed">
+          <div class="stepper-item pending">
             <div class="step-counter">
-              <i class="fa-solid fa-check"></i>
+              <i class="fa-solid fa-people-arrows-left-right"></i>
             </div>
             <div class="step-name">Waiting for Delivery Courrier</div>
           </div>
-          <div class="stepper-item completed">
+          <div class="stepper-item">
             <div class="step-counter">
-              <i class="fa-solid fa-check"></i>
+              <i class="fa-solid fa-bicycle"></i>
             </div>
             <div class="step-name">Out for Delivery</div>
           </div>
-          <div class="stepper-item completed">
+          <div class="stepper-item">
             <div class="step-counter">
-              <i class="fa-solid fa-check"></i>
+              <i class="fa-solid fa-house-user"></i>
             </div>
             <div class="step-name">Delivered</div>
           </div>

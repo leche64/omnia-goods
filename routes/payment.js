@@ -7,6 +7,8 @@ const logger = require("./logger");
 
 const verify = require("./verifyToken");
 
+const Order = require("../models/Order");
+
 // micro provides http helpers
 const { createError, json, send } = require("micro");
 const { nanoid } = require("nanoid");
@@ -26,12 +28,7 @@ router.get("/", (req, res) => {
   res.return("bing bon");
 });
 
-router.get("/", (req, res) => {
-  res.return("bing bon");
-});
-
 router.post("/createPayment", async (req, res) => {
-  logger.info("YOYOYOYOYYO");
   const payload = json(req);
   logger.debug(JSON.stringify(payload));
   await retry(async (bail, attempt) => {
@@ -74,17 +71,40 @@ router.post("/createPayment", async (req, res) => {
       const { result, statusCode } =
         await squareClient.paymentsApi.createPayment(payment);
 
-      logger.info("Payment succeeded!", { result, statusCode });
+      if (statusCode === 200) {
+        logger.info("Payment succeeded!", { result, statusCode });
 
-      send(res, statusCode, {
-        success: true,
-        payment: {
-          id: result.payment.id,
-          status: result.payment.status,
-          receiptUrl: result.payment.receiptUrl,
-          orderId: result.payment.orderId,
-        },
-      });
+        // save order
+        // const order = new Order({
+        //   orderContact: req.session.phoneNumber,
+        //   orderId: result.payment.orderId,
+        //   orderProducts: req.session.order,
+        //   paymentId: result.payment.id,
+        //   receiptUrl: result.payment.receiptUrl,
+        //   totalTax: req.body.totalTax,
+        //   totalDelivery: req.body.totalDelivery,
+        //   totalAmount: req.body.totalAmount,
+        //   orderStatus: "CONFIRMED",
+        // });
+        // const savedOrder = await order
+        //   .save()
+        //   .then((result) => {
+        //     console.log("SUCCESS inserting order entry:" + result);
+        //   })
+        //   .catch((err) => {
+        //     console.log("FAILURE inserting order entry:" + err);
+        //   });
+        send(res, statusCode, {
+          success: true,
+          payment: {
+            orderId: result.payment.orderId,
+            paymentId: result.payment.id,
+            status: result.payment.status,
+            receiptUrl: result.payment.receiptUrl,
+            totalAmount: req.body.totalAmount,
+          },
+        });
+      }
     } catch (ex) {
       if (ex instanceof ApiError) {
         // likely an error in the request. don't retry
