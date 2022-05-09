@@ -196,7 +196,8 @@ br {
 
 .form-container {
   margin: auto;
-  height: 80%;
+  height: 669px;
+  max-height: 669px;
   width: 669px;
   display: flex;
   justify-content: space-around;
