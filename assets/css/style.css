@@ -830,6 +830,8 @@ input[id="vape_three"]:checked ~ label[for="vape_three"] .card {
   font-size: 0.6rem;
   font-family: "Fira Mono", monospace;
   margin: 0.2rem;
+  position: absolute;
+  bottom: 0;
 }
 
 @keyframes glitch {
