@@ -299,8 +299,8 @@
             const paymentResults = await createPayment(token);
             console.log(paymentResults.payment.receiptUrl);
             displayPaymentResults("SUCCESS");
-
-            console.debug("Payment Success", paymentResults);
+            console.log("Payment Success", paymentResults);
+            window.location = "/api/payment";
           } catch (e) {
             cardButton.disabled = false;
             displayPaymentResults("FAILURE");

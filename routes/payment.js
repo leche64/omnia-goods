@@ -25,7 +25,7 @@ const squareClient = new Client({
 
 //TODO verify jwt
 router.get("/", (req, res) => {
-  res.return("bing bon");
+  res.render("orderTracking");
 });
 
 router.post("/createPayment", async (req, res) => {
