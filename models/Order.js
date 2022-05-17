@@ -11,6 +11,10 @@ const orderSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    orderCode: {
+      type: String,
+      required: true,
+    },
     orderProducts: {
       type: Array,
       required: false,
@@ -20,6 +24,10 @@ const orderSchema = new mongoose.Schema(
       required: false,
     },
     receiptUrl: {
+      type: String,
+      required: true,
+    },
+    subTotal: {
       type: String,
       required: true,
     },

@@ -72,28 +72,31 @@ router.post("/createPayment", async (req, res) => {
         await squareClient.paymentsApi.createPayment(payment);
 
       if (statusCode === 200) {
-        logger.info("Payment succeeded!", { result, statusCode });
+        logger.info("Square Payment succeeded!", { result, statusCode });
+        var orderId = result.payment.orderId;
+        var orderCode = orderId.substring(orderId.length - 5);
 
-        // save order
-        // const order = new Order({
-        //   orderContact: req.session.phoneNumber,
-        //   orderId: result.payment.orderId,
-        //   orderProducts: req.session.order,
-        //   paymentId: result.payment.id,
-        //   receiptUrl: result.payment.receiptUrl,
-        //   totalTax: req.body.totalTax,
-        //   totalDelivery: req.body.totalDelivery,
-        //   totalAmount: req.body.totalAmount,
-        //   orderStatus: "CONFIRMED",
-        // });
-        // const savedOrder = await order
-        //   .save()
-        //   .then((result) => {
-        //     console.log("SUCCESS inserting order entry:" + result);
-        //   })
-        //   .catch((err) => {
-        //     console.log("FAILURE inserting order entry:" + err);
-        //   });
+        const order = new Order({
+          orderContact: req.session.phoneNumber,
+          orderId: result.payment.orderId,
+          orderCode: orderCode.toUpperCase(),
+          orderProducts: req.session.order,
+          paymentId: result.payment.id,
+          receiptUrl: result.payment.receiptUrl,
+          subTotal: req.body.subTotal,
+          totalTax: req.body.totalTax,
+          totalDelivery: req.body.totalDelivery,
+          totalAmount: req.body.totalAmount,
+          orderStatus: "CONFIRMED",
+        });
+        const savedOrder = await order
+          .save()
+          .then((result) => {
+            console.log("SUCCESS inserting order entry:" + result);
+          })
+          .catch((err) => {
+            console.log("FAILURE inserting order entry:" + err);
+          });
         send(res, statusCode, {
           success: true,
           payment: {

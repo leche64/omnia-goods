@@ -212,6 +212,15 @@
         return card;
       }
 
+      const subtotalSpan = document.getElementById("subtotal");
+      const subTotal = subtotalSpan.textContent;
+
+      const taxSpan = document.getElementById("tax");
+      const taxTotal = taxSpan.textContent;
+
+      const deliverySpan = document.getElementById("delivery");
+      const deliveryTotal = deliverySpan.textContent;
+
       const totalSpan = document.getElementById("total");
       const orderTotal = totalSpan.textContent;
 
@@ -222,6 +231,9 @@
         const body = JSON.stringify({
           locationId,
           sourceId: token,
+          subTotal: subTotal,
+          totalTax: taxTotal,
+          totalDelivery: deliveryTotal,
           totalAmount: orderTotal,
         });
         const paymentResponse = await fetch("/api/payment/createPayment", {
